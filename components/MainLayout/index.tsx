@@ -28,8 +28,6 @@ export default function MainLayout({
                 'overflow-hidden',
                 'children:max-w-full',
                 'children:max-h-full',
-                'bg-page-bg',
-                'text-gray-100',
             )}>
             {children}
         </Fade>
