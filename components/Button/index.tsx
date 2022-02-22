@@ -8,6 +8,7 @@ import { ClassName } from 'types'
 import withButtonWrapper, {
     WithButtonWrapperInnerComponentRequiredProps,
 } from 'components/ButtonWrapper'
+import _ from 'lodash'
 
 export type ButtonProps = PropsWithChildren<{
     className?: ClassName
@@ -41,7 +42,7 @@ const Button = withButtonWrapper<ButtonProps>(function InnerButton({
                           'border-primary-dark active:bg-primary-dark',
                 className,
             )}
-            {...props}>
+            {..._.omit(props, 'job')}>
             {children}
         </button>
     )
