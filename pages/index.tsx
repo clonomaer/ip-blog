@@ -10,7 +10,7 @@ const Home: NextPage = ({}) => {
     const router = useRouter()
 
     return (
-        <div className="flex w-screen justify-center overflow-auto">
+        <div className="flex flex-col justify-center overflow-auto">
             {__ && (
                 <Button
                     job={() => {
