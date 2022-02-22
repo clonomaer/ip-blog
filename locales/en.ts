@@ -9,6 +9,9 @@ const locale: WebsiteLocale = {
         placeholder: 'once upon a time...',
         override: 'override!',
         publish: 'publish',
+        publishConfirmationMessage:
+            'are you sure you want to publish this post?',
     },
+    userInteraction: { confirmation: { cancel: 'cancel', confirm: 'confirm' } },
 }
 export default locale
