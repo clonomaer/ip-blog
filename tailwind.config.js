@@ -44,7 +44,7 @@ const config = {
             'primary-dark': '#1f4314',
             'primary-darker': '#0f1f09',
             'page-bg': '#090c09',
-            'page-text': '#ddd',
+            'page-text': '#ccc',
             'page-text-hover': '#fff',
         },
         spacing: {
