@@ -16,9 +16,11 @@ export class BrowserLocalStorageAPI implements StorageAPI {
         }
     }
     private async _write(key: string, value: any): Promise<void> {
-        localStorage.setItem(
-            config.BrowserLocalStorageCacheKey.concat(key),
-            value,
+        Window$.subscribe(w =>
+            w.localStorage.setItem(
+                config.BrowserLocalStorageCacheKey.concat(key),
+                value,
+            ),
         )
     }
     private _makeObservable(key: string, observables: ObservablesCache): void {
