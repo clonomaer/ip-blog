@@ -1,0 +1,4 @@
+.fillSVG,
+.fillSVG path {
+    fill: currentColor;
+}
