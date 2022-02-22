@@ -8,6 +8,7 @@ import { useMobileHoverFix } from 'hooks/mobile-hover-fix'
 import MainLayout from 'components/MainLayout'
 import { usePageLoadingStatus } from 'hooks/page-loading-status'
 import { waitFor } from 'helpers/wait-for'
+import { useRouteLoadingStatus } from 'hooks/route-loading-status'
 
 function SafeHydrate({ children }: PropsWithChildren<unknown>) {
     return (
@@ -21,6 +22,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     useMobileVHFix()
     useMobileHoverFix()
     const [isLoading, addLoadingJob] = usePageLoadingStatus()
+    useRouteLoadingStatus()
+
     useEffect(() => {
         addLoadingJob(waitFor(1000))
     }, [])
