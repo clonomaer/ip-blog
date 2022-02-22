@@ -11,6 +11,9 @@ import ConfirmationModal, {
 } from 'components/ConfirmationModal'
 import { useLazyRef } from 'hooks/lazy-ref'
 import { useSubscribe } from 'hooks/subscribe'
+import { getSubjectValue } from 'utils/get-subject-value'
+import { localCache } from 'contexts/local-cache'
+import { config } from 'configs'
 
 export type NewPageProps = {}
 
@@ -40,14 +43,28 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
                     />
                 )}
             </div>
-            <Button
-                job={() => {
-                    editorContent$.next(editorContentChanged$.getValue()())
-                    modalControl.current.next({ type: 'display', data: true })
-                    console.log('content is up to date')
-                }}>
-                {__?.editPost.publish}
-            </Button>
+            <div>
+                <Button
+                    job={() => {
+                        localCache.observe<string>(
+                            config.EditorContent.CacheKey,
+                        )
+                    }}>
+                    {__?.editPost.draft}
+                </Button>
+                <Button
+                    job={() => {
+                        editorContent$.next(
+                            getSubjectValue(editorContentChanged$)?.() ?? '',
+                        )
+                        modalControl.current.next({
+                            type: 'display',
+                            data: true,
+                        })
+                    }}>
+                    {__?.editPost.publish}
+                </Button>
+            </div>
             <ConfirmationModal control={modalControl.current}>
                 <div className="max-w-xs">
                     {__?.editPost.publishConfirmationMessage}

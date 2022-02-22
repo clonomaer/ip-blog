@@ -9,6 +9,7 @@ const locale: WebsiteLocale = {
         placeholder: 'once upon a time...',
         override: 'override!',
         publish: 'publish',
+        draft: 'save draft',
         publishConfirmationMessage:
             'are you sure you want to publish this post?',
     },

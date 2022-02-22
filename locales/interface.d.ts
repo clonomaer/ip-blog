@@ -7,6 +7,7 @@ export interface WebsiteLocale {
         placeholder: string
         override: string
         publish: string
+        draft: string
         publishConfirmationMessage: string
     }
     userInteraction: {

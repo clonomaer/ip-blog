@@ -1,6 +1,5 @@
 import { config } from 'configs'
 import {
-    BehaviorSubject,
     EMPTY,
     from,
     map,
@@ -13,7 +12,7 @@ import {
 import { localCache } from './local-cache'
 
 export const editorContent$ = new ReplaySubject<string>(1)
-export const editorContentChanged$ = new BehaviorSubject<() => string>(() => '')
+export const editorContentChanged$ = new ReplaySubject<() => string>(1)
 
 editorContentChanged$
     .pipe(
