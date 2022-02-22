@@ -39,24 +39,30 @@ export default function ModalWrapper({
                 onKeyDown={e =>
                     e.key === 'Escape' && control.next({ type: 'requestExit' })
                 }
-                ref={ref}
-                className={cn(
-                    'flex',
-                    'justify-center',
-                    'items-center',
-                    'fixed',
-                    'inset-0',
-                    'bg-black',
-                    'bg-opacity-60',
-                    'z-50',
-                    'overflow-y-auto',
-                    'overscroll-none',
-                    className,
-                )}>
+                ref={ref}>
                 <div
-                    onClick={e => e.stopPropagation()}
-                    className={cn('flex', 'flex-col', classNames?.container)}>
-                    {children}
+                    className={cn(
+                        'flex',
+                        'justify-center',
+                        'items-center',
+                        'fixed',
+                        'inset-0',
+                        'bg-black',
+                        'bg-opacity-60',
+                        'z-50',
+                        'overflow-y-auto',
+                        'overscroll-none',
+                        className,
+                    )}>
+                    <div
+                        onClick={e => e.stopPropagation()}
+                        className={cn(
+                            'flex',
+                            'flex-col',
+                            classNames?.container,
+                        )}>
+                        {children}
+                    </div>
                 </div>
             </Fade>
         </Portal>
