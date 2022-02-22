@@ -40,10 +40,12 @@ const config = {
         },
         colors: {
             ...defaultConfig.theme.colors,
-            primary: '#d400ff',
-            'primary-dark': '#530063',
-            'primary-darker': '#3c0047',
-            'page-bg': '#1b0f24',
+            primary: '#4ea832',
+            'primary-dark': '#1f4314',
+            'primary-darker': '#0f1f09',
+            'page-bg': '#090c09',
+            'page-text': '#ddd',
+            'page-text-hover': '#fff',
         },
         spacing: {
             ...defaultConfig.theme.spacing,
