@@ -29,7 +29,7 @@ export const config = {
     },
     PageLoadingPoolKey: 'job-pool-page-loading-queue-',
     EditorContent: {
-        AutoSaveDelay: 6 * 1000,
+        AutoSaveDelay: 20 * 1000,
         CacheKey: 'editor-content-auto-save',
     },
 }
