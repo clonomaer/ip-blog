@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Editor from 'rich-markdown-editor'
 import { useLocale } from 'hooks/locale'
 import Button from 'components/Button'
 import { editorContent$, editorContentChanged$ } from 'contexts/editor-content'
 import { useObservable } from 'hooks/observable'
-import { take } from 'rxjs'
+import { filter, Subject, take } from 'rxjs'
+import ConfirmationModal, {
+    ConfirmationModalControlStream,
+} from 'components/ConfirmationModal'
+import { useLazyRef } from 'hooks/lazy-ref'
+import { useSubscribe } from 'hooks/subscribe'
 
 export type NewPageProps = {}
 
@@ -13,6 +18,13 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
     const __ = useLocale()
     const editorSavedValue = useObservable(() => editorContent$.pipe(take(1)))
     const dumState = useObservable(editorContent$)
+    const modalControl = useLazyRef<ConfirmationModalControlStream>(
+        () => new Subject(),
+    )
+    useSubscribe(
+        () => modalControl.current.pipe(filter(x => x.type === 'requestExit')),
+        () => modalControl.current.next({ type: 'display', data: false }),
+    )
 
     return (
         <div className="flex flex-col flex-grow h-full w-screen justify-center items-center p-3 space-y-8 py-8">
@@ -31,10 +43,16 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
             <Button
                 job={() => {
                     editorContent$.next(editorContentChanged$.getValue()())
+                    modalControl.current.next({ type: 'display', data: true })
                     console.log('content is up to date')
                 }}>
                 {__?.editPost.publish}
             </Button>
+            <ConfirmationModal control={modalControl.current}>
+                <div className="max-w-xs">
+                    {__?.editPost.publishConfirmationMessage}
+                </div>
+            </ConfirmationModal>
             <div>{dumState}</div>
         </div>
     )
