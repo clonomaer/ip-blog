@@ -28,4 +28,8 @@ export const config = {
         MaxTimeout: 10000,
     },
     PageLoadingPoolKey: 'job-pool-page-loading-queue-',
+    EditorContent: {
+        AutoSaveDelay: 6 * 1000,
+        CacheKey: 'editor-content-auto-save',
+    },
 }
