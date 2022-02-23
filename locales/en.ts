@@ -10,6 +10,7 @@ const locale: WebsiteLocale = {
         override: 'override!',
         publish: 'publish',
         draft: 'save draft',
+        draftSaved: 'saved!',
         publishConfirmationMessage:
             'are you sure you want to publish this post?',
     },

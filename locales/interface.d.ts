@@ -8,6 +8,7 @@ export interface WebsiteLocale {
         override: string
         publish: string
         draft: string
+        draftSaved: string
         publishConfirmationMessage: string
     }
     userInteraction: {

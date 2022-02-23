@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import type { NextPage } from 'next'
 import Editor from 'rich-markdown-editor'
 import { useLocale } from 'hooks/locale'
 import Button from 'components/Button'
 import { editorContent$, editorContentChanged$ } from 'contexts/editor-content'
 import { useObservable } from 'hooks/observable'
-import { filter, Subject, take } from 'rxjs'
+import { filter, map, Subject, take } from 'rxjs'
 import ConfirmationModal, {
     ConfirmationModalControlStream,
 } from 'components/ConfirmationModal'
 import { useLazyRef } from 'hooks/lazy-ref'
 import { useSubscribe } from 'hooks/subscribe'
-import { getSubjectValue } from 'utils/get-subject-value'
 import { localCache } from 'contexts/local-cache'
 import { config } from 'configs'
+import { flashToast$ } from 'contexts/flash-toast'
 
 export type NewPageProps = {}
 
@@ -27,6 +27,37 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
     useSubscribe(
         () => modalControl.current.pipe(filter(x => x.type === 'requestExit')),
         () => modalControl.current.next({ type: 'display', data: false }),
+    )
+
+    const handlePublish = useMemo(
+        () => () => {
+            editorContentChanged$
+                .pipe(
+                    take(1),
+                    map(f => f()),
+                )
+                .subscribe(editorContent$)
+            modalControl.current.next({
+                type: 'display',
+                data: true,
+            })
+        },
+        [modalControl],
+    )
+
+    const handleSaveDraft = useMemo(
+        () => () => {
+            editorContentChanged$
+                .pipe(
+                    take(1),
+                    map(f => f()),
+                )
+                .subscribe(
+                    localCache.observe<string>(config.EditorContent.CacheKey),
+                )
+            flashToast$.next(__?.editPost.draftSaved ?? '')
+        },
+        [__],
     )
 
     return (
@@ -44,26 +75,8 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
                 )}
             </div>
             <div>
-                <Button
-                    job={() => {
-                        localCache.observe<string>(
-                            config.EditorContent.CacheKey,
-                        )
-                    }}>
-                    {__?.editPost.draft}
-                </Button>
-                <Button
-                    job={() => {
-                        editorContent$.next(
-                            getSubjectValue(editorContentChanged$)?.() ?? '',
-                        )
-                        modalControl.current.next({
-                            type: 'display',
-                            data: true,
-                        })
-                    }}>
-                    {__?.editPost.publish}
-                </Button>
+                <Button job={handleSaveDraft}>{__?.editPost.draft}</Button>
+                <Button job={handlePublish}>{__?.editPost.publish}</Button>
             </div>
             <ConfirmationModal control={modalControl.current}>
                 <div className="max-w-xs">
