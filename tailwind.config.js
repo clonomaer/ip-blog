@@ -30,7 +30,7 @@ const config = {
         fontFamily: {
             ...defaultConfig.theme.fontFamily,
             sans: [
-                'Menlo regular, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+                'source code pro, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
                 ...defaultConfig.theme.fontFamily.sans,
             ],
             serif: ['Yellowtail', ...defaultConfig.theme.fontFamily.serif],
