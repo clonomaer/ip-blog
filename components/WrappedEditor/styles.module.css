@@ -5,7 +5,6 @@
     }
     * {
         all: revert;
-        /* font-family: monospace; */
         @apply font-sans;
     }
     a {
