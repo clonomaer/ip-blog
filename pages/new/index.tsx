@@ -26,8 +26,12 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
         () => new Subject(),
     )
     useSubscribe(
-        () => modalControl.current.pipe(filter(x => x.type === 'requestExit')),
-        () => modalControl.current.next({ type: 'display', data: false }),
+        () =>
+            modalControl.current.pipe(
+                filter(x => x.type === 'requestExit'),
+                map(() => ({ type: 'display' as 'display', data: false })),
+            ),
+        modalControl.current,
     )
 
     const handlePublish = useMemo(
@@ -84,9 +88,6 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
                     {__?.editPost.publishConfirmationMessage}
                 </div>
             </ConfirmationModal>
-
-            <WrappedEditor readOnly value={truthy(editorSavedValue, '')} />
-            {/* <HTMLContainer innerHTML={markdownIt.render(dumState ?? '')} /> */}
         </div>
     )
 }
