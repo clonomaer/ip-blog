@@ -11,8 +11,8 @@ import { useObservable } from './observable'
 import { usePageLoadingStatus } from './page-loading-status'
 import { useSubscribe } from './subscribe'
 
-export function useLocale(): WebsiteLocale | undefined | Error {
-    const locale = useObservable(localeContext$)
+export function useLocale(): WebsiteLocale | undefined {
+    const locale = useObservable(localeContext$, { ignoreErrors: true })
     const [_, addLoadingJob] = usePageLoadingStatus()
     const getIsFirstRender = useGetIsFirstRender()
     const router = useRouter()
