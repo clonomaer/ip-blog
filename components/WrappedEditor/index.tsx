@@ -17,6 +17,7 @@ export default function WrappedEditor({
             dark
             className={cn(
                 'px-7 py-3 border-2 border-primary-darker h-full w-full flex-grow',
+                'revert-tailwind-preflight',
                 styles.container,
                 className,
             )}

@@ -1,18 +1,30 @@
 .container {
-    background-color: theme('colors.page-bg');
-    div {
-        background-color: theme('colors.page-bg');
+    @apply bg-page-bg;
+
+    & > div,
+    span:global(.heading-actions) {
+        @apply bg-page-bg;
     }
+
     * {
-        all: revert;
         @apply font-sans;
     }
+
     a {
         color: inherit;
         text-decoration: none;
     }
 
-    * {
-        box-sizing: border-box;
+    :global(.code-block) pre {
+        @apply bg-green-500 bg-opacity-10;
+    }
+
+    div:global(.notice-block) {
+        &:global(.warning) {
+            @apply bg-red-800;
+        }
+        &:global(.tip) {
+            @apply bg-purple-600;
+        }
     }
 }
