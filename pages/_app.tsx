@@ -9,6 +9,7 @@ import MainLayout from 'components/MainLayout'
 import { usePageLoadingStatus } from 'hooks/page-loading-status'
 import { waitFor } from 'helpers/wait-for'
 import { useRouteLoadingStatus } from 'hooks/route-loading-status'
+import FlashToast from 'components/FlashToast'
 
 function SafeHydrate({ children }: PropsWithChildren<unknown>) {
     return (
@@ -30,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <SafeHydrate>
             <Head>{/*  */}</Head>
-
+            <FlashToast />
             <LoadingOverlay
                 spinnerProps={{ big: true }}
                 visible={isLoading ?? true}

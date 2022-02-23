@@ -3,6 +3,7 @@ import themeConfig from '../tailwind.config'
 export const config = {
     Delays: {
         min: 300,
+        confirm: 2000,
         timeout: 20000,
         suggestRefresh: 8000,
         fastLeave: {
