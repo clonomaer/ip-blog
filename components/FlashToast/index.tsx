@@ -1,9 +1,12 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import cn from 'classnames'
 import { ClassName } from 'types'
-import ModalWrapper, { ModalControlStream } from 'components/ModalWrapper'
+import ModalWrapper, {
+    ModalControlStream,
+    ModalControlStreamOptions,
+} from 'components/ModalWrapper'
 import { useLazyRef } from 'hooks/lazy-ref'
-import { delay, filter, map, merge, scan, Subject } from 'rxjs'
+import { filter, map, merge, of, Subject, switchAll, timer } from 'rxjs'
 import { flashToast$ } from 'contexts/flash-toast'
 import { useObservable } from 'hooks/observable'
 import { config } from 'configs'
@@ -19,20 +22,16 @@ export default function FlashToast({
     const message = useObservable(flashToast$)
     useEffect(() => {
         flashToast$
-            .pipe(map(() => ({ type: 'display' as 'display', data: true })))
-            .subscribe(control.current)
-
-        merge(
-            flashToast$.pipe(map(() => 1)),
-            flashToast$.pipe(
-                delay(config.Delays.confirm),
-                map(() => -1),
-            ),
-        )
             .pipe(
-                scan((acc, curr) => acc + curr, 0),
-                filter(x => x === 0),
-                map(() => ({ type: 'display' as 'display', data: false })),
+                map(() =>
+                    merge<ModalControlStreamOptions[]>(
+                        of({ type: 'display', data: true }),
+                        timer(config.Delays.confirm).pipe(
+                            map(() => ({ type: 'display', data: false })),
+                        ),
+                    ),
+                ),
+                switchAll(),
             )
             .subscribe(control.current)
 

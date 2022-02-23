@@ -9,9 +9,11 @@ import { portalStatus$ } from 'contexts/portal-status'
 import { useSubscribe } from 'hooks/subscribe'
 import { combineLatest, filter, map, tap } from 'rxjs'
 
-export type ModalControlStream = ControlStream<
-    { type: 'requestExit' } | { type: 'display'; data: boolean }
->
+export type ModalControlStreamOptions =
+    | { type: 'requestExit' }
+    | { type: 'display'; data: boolean }
+
+export type ModalControlStream = ControlStream<ModalControlStreamOptions>
 
 export type ModalWrapperProps = PropsWithChildren<{
     className?: ClassName
