@@ -1,3 +1,4 @@
+import { fromEvent, map, merge, Observable, of } from 'rxjs'
 import { useEffect, useState } from 'react'
 
 export function useMedia(mediaQuery: string): boolean | undefined {
@@ -14,4 +15,12 @@ export function useMedia(mediaQuery: string): boolean | undefined {
         }
     }, [mediaQuery])
     return matches
+}
+
+export function observeMediaQuery(mediaQuery: string): Observable<boolean> {
+    const queryObject = window.matchMedia(mediaQuery)
+    return merge(
+        of(queryObject),
+        fromEvent<MediaQueryListEvent>(queryObject, 'change'),
+    ).pipe(map(e => e.matches))
 }
