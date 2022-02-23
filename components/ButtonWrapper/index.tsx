@@ -34,6 +34,7 @@ export default function withButtonWrapper<
                     }
                 }}
                 disabled={isLoading || props.disabled}
+                isLoading={isLoading}
             />
         )
     }

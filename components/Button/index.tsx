@@ -9,6 +9,7 @@ import withButtonWrapper, {
     WithButtonWrapperInnerComponentRequiredProps,
 } from 'components/ButtonWrapper'
 import _ from 'lodash'
+import LoadingOverlay from 'components/LoadingOverlay'
 
 export type ButtonProps = PropsWithChildren<{
     className?: ClassName
@@ -40,9 +41,13 @@ const Button = withButtonWrapper<ButtonProps>(function InnerButton({
                           'border-primary bg-primary-dark active:bg-primary-dark'
                     : inactiveClassName ??
                           'border-primary-dark active:bg-primary-dark',
+                'relative',
+                isLoading &&
+                    'text-transparent hover:text-transparent disabled:text-transparent',
                 className,
             )}
             {..._.omit(props, 'job')}>
+            <LoadingOverlay visible={!!isLoading} />
             {children}
         </button>
     )
