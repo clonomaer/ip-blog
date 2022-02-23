@@ -85,7 +85,7 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
                 </div>
             </ConfirmationModal>
 
-            <WrappedEditor value={truthy(editorSavedValue, '')} />
+            <WrappedEditor readOnly value={truthy(editorSavedValue, '')} />
             {/* <HTMLContainer innerHTML={markdownIt.render(dumState ?? '')} /> */}
         </div>
     )
