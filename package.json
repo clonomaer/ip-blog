@@ -7,8 +7,10 @@
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint",
-    "test-single": "npx ts-mocha -r tsconfig-paths/register,./helpers/register-enzyme.ts,./helpers/mocha-init.ts -p ./tsconfig.test.json --timeout 20000",
-    "test": "yarn test-single './!(node_modules|.next|dist|build)/**/*.spec.{js,jsx,ts,tsx}'"
+    "test": "yarn test:single './!(node_modules|.next|dist|build)/**/*.spec.{js,jsx,ts,tsx}'",
+    "test:single": "npx ts-mocha -r tsconfig-paths/register,./helpers/register-enzyme.ts,./helpers/mocha-init.ts -p ./tsconfig.test.json --timeout 20000",
+    "test:server": "yarn test:server:single './!(node_modules|.next|dist|build)/**/*.spec.{js,jsx,ts,tsx}'",
+    "test:server:single": "npx ts-mocha -r tsconfig-paths/register,./helpers/mocha-init.ts -p ./tsconfig.test.json --timeout 20000"
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.5.0",
