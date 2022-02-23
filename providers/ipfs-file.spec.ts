@@ -7,7 +7,7 @@ const testCid = 'QmPChd2hVbrJ6bfo3WBcTW4iZnpHm8TEzWkLHmLpXhF68A'
 const testContent = `Hello, <YOUR NAME HERE>`
 
 describe('ipfs file stream', () => {
-    afterEach(() => {
+    after(() => {
         ipfs$.subscribe(ipfs => {
             ipfs.stop()
         })
@@ -21,5 +21,10 @@ describe('ipfs file stream', () => {
         ).to.eq(testContent)
 
         return
+    })
+    it('should abort when signal is received', async () => {
+        const [file$, signal] = ipfsTextFile$(testCid)
+        signal.abort()
+        expect(firstValueFrom(file$)).to.be.rejected
     })
 })

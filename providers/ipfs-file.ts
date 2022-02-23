@@ -1,16 +1,6 @@
 import { ipfs$ } from 'contexts/ipfs'
-import { Utf8ArrayToStr } from 'helpers/utf8-array-to-str'
 import _ from 'lodash'
-import { Window$ } from 'observables/window'
-import {
-    concatMap,
-    defaultIfEmpty,
-    from,
-    map,
-    mergeAll,
-    Observable,
-    shareReplay,
-} from 'rxjs'
+import { map, mergeAll, Observable } from 'rxjs'
 
 export function ipfsTextFile$(
     cid: string,
