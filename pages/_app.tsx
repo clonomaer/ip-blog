@@ -10,6 +10,7 @@ import { usePageLoadingStatus } from 'hooks/page-loading-status'
 import { waitFor } from 'helpers/wait-for'
 import { useRouteLoadingStatus } from 'hooks/route-loading-status'
 import FlashToast from 'components/FlashToast'
+import BlurOnPortalOpen from 'components/BlurOnPortalOpen'
 
 function SafeHydrate({ children }: PropsWithChildren<unknown>) {
     return (
@@ -38,9 +39,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                 skipInitialTransition
                 className={'!z-50 bg-page-bg'}
             />
-            <MainLayout>
-                <Component {...pageProps} />
-            </MainLayout>
+            <BlurOnPortalOpen>
+                <MainLayout>
+                    <Component {...pageProps} />
+                </MainLayout>
+            </BlurOnPortalOpen>
         </SafeHydrate>
     )
 }
