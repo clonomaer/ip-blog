@@ -3,7 +3,7 @@ module.exports = {
     experimental: {},
     future: {},
     reactStrictMode: true,
-    target: 'serverless',
+    // target: 'serverless',
     async rewrites() {
         return [
             {
