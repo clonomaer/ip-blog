@@ -12,28 +12,55 @@ type Options = {
 
 export function useObservable<T>(
     observable: BehaviorSubject<T> | LazyEval<BehaviorSubject<T>>,
-    options?: Options,
+    options?: Options & { ignoreErrors?: false },
 ): T | ObservableError
 export function useObservable<T>(
+    observable: BehaviorSubject<T> | LazyEval<BehaviorSubject<T>>,
+    options?: Options & { ignoreErrors: true },
+): T
+
+export function useObservable<T>(
     observable: Observable<T> | LazyEval<Observable<T>>,
-    options?: Options,
+    options?: Options & { ignoreErrors?: false },
 ): T | undefined | ObservableError
+export function useObservable<T>(
+    observable: Observable<T> | LazyEval<Observable<T>>,
+    options?: Options & { ignoreErrors: true },
+): T | undefined
+
 export function useObservable<T>(
     observable:
         | null
         | Observable<T>
         | BehaviorSubject<T>
         | LazyEval<BehaviorSubject<T> | Observable<T> | null | undefined>,
-    options?: Options,
+    options?: Options & { ignoreErrors?: false },
 ): undefined | T | ObservableError
+export function useObservable<T>(
+    observable:
+        | null
+        | Observable<T>
+        | BehaviorSubject<T>
+        | LazyEval<BehaviorSubject<T> | Observable<T> | null | undefined>,
+    options?: Options & { ignoreErrors: true },
+): undefined | T
+
 export function useObservable<T>(
     observable:
         | Observable<T>
         | BehaviorSubject<T>
         | LazyEval<BehaviorSubject<T> | Observable<T> | null | undefined>
         | null,
-    options?: Options & { initialValue: T },
+    options?: Options & { initialValue: T } & { ignoreErrors?: false },
 ): T | ObservableError
+export function useObservable<T>(
+    observable:
+        | Observable<T>
+        | BehaviorSubject<T>
+        | LazyEval<BehaviorSubject<T> | Observable<T> | null | undefined>
+        | null,
+    options?: Options & { initialValue: T } & { ignoreErrors: true },
+): T
 
 export function useObservable<T>(
     observable:
@@ -44,11 +71,14 @@ export function useObservable<T>(
     {
         initialValue = SENTINEL,
         dependencies = [],
+        ignoreErrors,
     }: Options & {
         initialValue?: T | Sentinel
+        ignoreErrors?: boolean
     } = {
         initialValue: SENTINEL,
         dependencies: [],
+        ignoreErrors: false,
     },
 ): T | ObservableError | undefined {
     const [state, setState] = useState<T | undefined | ObservableError>(() => {
@@ -68,7 +98,8 @@ export function useObservable<T>(
     useEffect(() => {
         const subscription = unLazy(observable)?.subscribe({
             next: setState,
-            error: e => setState(new ObservableError(e)),
+            error: e =>
+                ignoreErrors ? undefined : setState(new ObservableError(e)),
         })
         return () => {
             subscription?.unsubscribe()
