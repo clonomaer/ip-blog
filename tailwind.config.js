@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires,no-undef
 const defaultConfig = require('tailwindcss/stubs/defaultConfig.stub')
 
@@ -58,6 +60,42 @@ const config = {
     plugins: [
         // eslint-disable-next-line @typescript-eslint/no-var-requires,no-undef
         require('tailwindcss-children'),
+        plugin(({ addUtilities, theme }) => {
+            addUtilities({
+                '.revert-tailwind-preflight': {
+                    '& blockquote,& dl,& dd,& h1,& h2,& h3,& h4,& h5,& h6,& hr,& figure,& p,& pre':
+                        {
+                            margin: 'revert',
+                        },
+                    '& h1,& h2,& h3,& h4,& h5,& h6': {
+                        fontSize: 'revert',
+                        fontWeight: 'revert',
+                    },
+                    '& ol,& ul': {
+                        listStyle: 'revert',
+                        margin: 'revert',
+                        padding: 'revert',
+                    },
+                    '& img,& svg,& video,& canvas,& audio,& iframe,& embed,& object':
+                        {
+                            display: 'revert',
+                            verticalAlign: 'revert',
+                        },
+                    '& *,& ::before,& ::after': {
+                        borderWidth: 'revert',
+                        borderStyle: 'revert',
+                        borderColor: 'revert',
+                    },
+                    '& .google-map *': {
+                        borderStyle: 'revert',
+                    },
+                    '& button:focus': {
+                        outline: 'revert',
+                        outline: 'revert',
+                    },
+                },
+            })
+        }),
     ],
 }
 // eslint-disable-next-line no-undef
