@@ -19,7 +19,6 @@ html {
         font-size: 85%;
     }
     body {
-        font-family: 'Menlo Regular';
         min-height: var(--h-screen);
         max-height: var(--h-screen);
         #__next {
