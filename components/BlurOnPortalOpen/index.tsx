@@ -15,7 +15,6 @@ export default function BlurOnPortalOpen({
     children,
 }: BlurOnPortalOpenProps): React.ReactElement | null {
     const isPortalOpen = useObservable(portalStatus$)
-    console.log(`isPortalOpen ${isPortalOpen}`)
     const styles = useSpring({
         from: {
             filter: truthy(isPortalOpen, false) ? 'blur(0px)' : 'blur(10px)',
