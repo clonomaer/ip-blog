@@ -1,3 +1,4 @@
+import { ObservableError } from 'classes/observable-error'
 import { SENTINEL, Sentinel } from 'contexts/empty-sentinel'
 import _ from 'lodash'
 import { DependencyList, useEffect, useState } from 'react'
@@ -12,11 +13,11 @@ type Options = {
 export function useObservable<T>(
     observable: BehaviorSubject<T> | LazyEval<BehaviorSubject<T>>,
     options?: Options,
-): T | null
+): T | ObservableError
 export function useObservable<T>(
     observable: Observable<T> | LazyEval<Observable<T>>,
     options?: Options,
-): T | undefined | null
+): T | undefined | ObservableError
 export function useObservable<T>(
     observable:
         | null
@@ -24,7 +25,7 @@ export function useObservable<T>(
         | BehaviorSubject<T>
         | LazyEval<BehaviorSubject<T> | Observable<T> | null | undefined>,
     options?: Options,
-): undefined | T | null
+): undefined | T | ObservableError
 export function useObservable<T>(
     observable:
         | Observable<T>
@@ -32,7 +33,7 @@ export function useObservable<T>(
         | LazyEval<BehaviorSubject<T> | Observable<T> | null | undefined>
         | null,
     options?: Options & { initialValue: T },
-): T | null
+): T | ObservableError
 
 export function useObservable<T>(
     observable:
@@ -49,8 +50,8 @@ export function useObservable<T>(
         initialValue: SENTINEL,
         dependencies: [],
     },
-): T | null | undefined {
-    const [state, setState] = useState<T | undefined | null>(() => {
+): T | ObservableError | undefined {
+    const [state, setState] = useState<T | undefined | ObservableError>(() => {
         if (initialValue !== SENTINEL) {
             return initialValue
         }
@@ -67,7 +68,7 @@ export function useObservable<T>(
     useEffect(() => {
         const subscription = unLazy(observable)?.subscribe({
             next: setState,
-            error: () => setState(null),
+            error: e => setState(new ObservableError(e)),
         })
         return () => {
             subscription?.unsubscribe()
