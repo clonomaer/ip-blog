@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import type { NextPage } from 'next'
-import Editor from 'rich-markdown-editor'
 import { useLocale } from 'hooks/locale'
 import Button from 'components/Button'
 import { editorContent$, editorContentChanged$ } from 'contexts/editor-content'
@@ -14,13 +13,15 @@ import { useSubscribe } from 'hooks/subscribe'
 import { localCache } from 'contexts/local-cache'
 import { config } from 'configs'
 import { flashToast$ } from 'contexts/flash-toast'
+import WrappedEditor from 'components/WrappedEditor'
+import _ from 'lodash'
+import { truthy } from 'helpers/truthy'
 
 export type NewPageProps = {}
 
 const NewPage: NextPage<NewPageProps> = ({}) => {
     const __ = useLocale()
     const editorSavedValue = useObservable(() => editorContent$.pipe(take(1)))
-    const dumState = useObservable(editorContent$)
     const modalControl = useLazyRef<ConfirmationModalControlStream>(
         () => new Subject(),
     )
@@ -64,13 +65,13 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
         <div className="flex flex-col flex-grow h-full w-screen justify-center items-center p-3 space-y-8 py-8">
             <h2 className="text-xl">{__?.editPost.newPostHeading}</h2>
             <div className="flex flex-grow max-w-5xl w-full">
-                {__ && (
-                    <Editor
+                {__ && ( // placeholder fix
+                    <WrappedEditor
                         dark
                         className="px-7 py-3 bg-[#181A1B] border-2 border-primary-darker h-full w-full flex-grow"
                         placeholder={__.editPost.placeholder}
                         onChange={f => editorContentChanged$.next(f)}
-                        value={editorSavedValue ?? ''}
+                        value={truthy(editorSavedValue, '')}
                     />
                 )}
             </div>
@@ -83,7 +84,9 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
                     {__?.editPost.publishConfirmationMessage}
                 </div>
             </ConfirmationModal>
-            <div>{dumState}</div>
+
+            <WrappedEditor value={truthy(editorSavedValue, '')} />
+            {/* <HTMLContainer innerHTML={markdownIt.render(dumState ?? '')} /> */}
         </div>
     )
 }
