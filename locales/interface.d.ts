@@ -14,6 +14,9 @@ export interface WebsiteLocale {
         draftSaved: string
         publishConfirmationMessage: string
     }
+    viewPost: {
+        invalidCidError: string
+    }
     userInteraction: {
         confirmation: {
             confirm: string
