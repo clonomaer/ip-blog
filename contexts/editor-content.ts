@@ -1,6 +1,8 @@
 import { config } from 'configs'
+import _ from 'lodash'
 import {
     EMPTY,
+    filter,
     from,
     map,
     merge,
@@ -20,6 +22,7 @@ editorContentChanged$
             leading: true,
             trailing: true,
         }),
+        filter(f => _.isFunction(f)),
         map(f => f()),
     )
     .subscribe(localCache.observe<string>(config.EditorContent.CacheKey))
