@@ -9,7 +9,10 @@ import { useSubscribe } from './subscribe'
 
 export function usePageLoadingStatus(): [
     isLoading: boolean | null,
-    addJob: (input: Promise<unknown> | Observable<unknown>) => void,
+    addJob: (
+        input: Promise<unknown> | Observable<unknown>,
+        id?: string,
+    ) => void,
 ] {
     const router = useRouter()
 
@@ -21,8 +24,8 @@ export function usePageLoadingStatus(): [
         { initialValue: true, ignoreErrors: true },
     )
     const addJob = useMemo(
-        () => (input: Observable<unknown> | Promise<unknown>) =>
-            jobPool.add(config.PageLoadingPoolKey, input),
+        () => (input: Observable<unknown> | Promise<unknown>, id?: string) =>
+            jobPool.add(config.PageLoadingPoolKey, input, id),
         [],
     )
     useSubscribe(() => jobPool.observe(config.PageLoadingPoolKey), {

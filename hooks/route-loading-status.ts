@@ -12,6 +12,7 @@ export function useRouteLoadingStatus(): void {
                     router.events.on('routeChangeComplete', () => resolve())
                     router.events.on('routeChangeError', () => reject())
                 }),
+                'route changed',
             )
         })
     }, [])

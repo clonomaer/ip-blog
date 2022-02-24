@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     useRouteLoadingStatus()
 
     useEffect(() => {
-        addLoadingJob(waitFor(1000))
+        addLoadingJob(waitFor(1000), 'min delay')
     }, [])
     return (
         <SafeHydrate>

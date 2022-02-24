@@ -6,7 +6,6 @@ import { WebsiteLocale } from 'locales/interface'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { timer } from 'rxjs'
-import { useGetIsFirstRender } from './is-first-render'
 import { useObservable } from './observable'
 import { usePageLoadingStatus } from './page-loading-status'
 import { useSubscribe } from './subscribe'
@@ -14,12 +13,9 @@ import { useSubscribe } from './subscribe'
 export function useLocale(): WebsiteLocale | undefined {
     const locale = useObservable(localeContext$, { ignoreErrors: true })
     const [_, addLoadingJob] = usePageLoadingStatus()
-    const getIsFirstRender = useGetIsFirstRender()
     const router = useRouter()
     useEffect(() => {
-        if (getIsFirstRender()) {
-            addLoadingJob(__())
-        }
+        addLoadingJob(__(), 'locale')
     }, [])
     useSubscribe(localeContext$, {
         error: e => {

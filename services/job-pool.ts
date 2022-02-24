@@ -13,21 +13,23 @@ export class JobPool {
     constructor(private streamCache: StreamCache) {
         //
     }
-    add(key: string, job: Job): string {
-        const id = nanoid()
+    add(key: string, job: Job, id?: string): string {
+        if (_.isEmpty(id)) {
+            id = nanoid()
+        }
         this.streamCache
             .control<_.Dictionary<JobControl>>(this.streamCacheKey.concat(key))
             .next(prev => ({
                 ...(prev === SENTINEL ? {} : prev),
-                [id]: {
+                [id!]: {
                     job,
                     subscription: from(job).subscribe({
-                        complete: () => this.remove(key, id),
-                        error: () => this.remove(key, id),
+                        complete: () => this.remove(key, id!),
+                        error: () => this.remove(key, id!),
                     }),
                 },
             }))
-        return id
+        return id!
     }
 
     remove(key: string, id: string): void {
