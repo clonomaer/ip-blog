@@ -10,6 +10,7 @@ import { filter, map, merge, of, Subject, switchAll, timer } from 'rxjs'
 import { flashToast$ } from 'contexts/flash-toast'
 import { useObservable } from 'hooks/observable'
 import { config } from 'configs'
+import _ from 'lodash'
 
 export type FlashToastProps = {
     className?: ClassName
@@ -23,12 +24,16 @@ export default function FlashToast({
     useEffect(() => {
         flashToast$
             .pipe(
-                map(() =>
+                map(msg =>
                     merge<ModalControlStreamOptions[]>(
                         of({ type: 'display', data: true }),
-                        timer(config.Delays.confirm).pipe(
-                            map(() => ({ type: 'display', data: false })),
-                        ),
+                        timer(
+                            _.isString(msg)
+                                ? !msg.startsWith('E0x')
+                                    ? config.Delays.confirm
+                                    : config.Delays.errorFlash
+                                : msg.timeout,
+                        ).pipe(map(() => ({ type: 'display', data: false }))),
                     ),
                 ),
                 switchAll(),
@@ -44,7 +49,9 @@ export default function FlashToast({
     }, [])
     return (
         <ModalWrapper className={className} control={control.current}>
-            {message}
+            <div className="max-w-full w-96">
+                {_.isString(message) ? message : message?.message ?? '??!!'}
+            </div>
         </ModalWrapper>
     )
 }

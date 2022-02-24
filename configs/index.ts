@@ -3,6 +3,7 @@ import themeConfig from '../tailwind.config'
 export const config = {
     Delays: {
         mainLoadingMin: 1000,
+        errorFlash: 6000,
         min: 300,
         confirm: 2000,
         timeout: 20000,

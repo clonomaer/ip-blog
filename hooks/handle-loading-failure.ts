@@ -19,7 +19,7 @@ export function useHandlePageLoadingFailure(): void {
                     e?.toString?.() ?? e
                 }`,
             )
-            timer(config.Delays.confirm).subscribe(() => router.reload())
+            timer(config.Delays.errorFlash).subscribe(() => router.reload())
         },
     })
 }
