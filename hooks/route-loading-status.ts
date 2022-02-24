@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { useOnce } from './once'
 import { usePageLoadingStatus } from './page-loading-status'
 
 export function useRouteLoadingStatus(): void {
     const router = useRouter()
     const [, addLoadingJob] = usePageLoadingStatus()
-    useEffect(() => {
+    useOnce(() => {
         router.events.on('routeChangeStart', () => {
             addLoadingJob(
                 new Promise<void>((resolve, reject) => {
@@ -15,5 +16,5 @@ export function useRouteLoadingStatus(): void {
                 'route changed',
             )
         })
-    }, [])
+    })
 }

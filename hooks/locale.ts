@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { timer } from 'rxjs'
 import { useObservable } from './observable'
+import { useOnce } from './once'
 import { usePageLoadingStatus } from './page-loading-status'
 import { useSubscribe } from './subscribe'
 
@@ -14,9 +15,9 @@ export function useLocale(): WebsiteLocale | undefined {
     const locale = useObservable(localeContext$, { ignoreErrors: true })
     const [_, addLoadingJob] = usePageLoadingStatus()
     const router = useRouter()
-    useEffect(() => {
+    useOnce(() => {
         addLoadingJob(__(), 'locale')
-    }, [])
+    })
     useSubscribe(localeContext$, {
         error: e => {
             console.error('Error loading locale', e)

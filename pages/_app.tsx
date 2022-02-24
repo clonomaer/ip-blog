@@ -11,12 +11,13 @@ import { waitFor } from 'helpers/wait-for'
 import { useRouteLoadingStatus } from 'hooks/route-loading-status'
 import FlashToast from 'components/FlashToast'
 import BlurOnPortalOpen from 'components/BlurOnPortalOpen'
+import { useOnce } from 'hooks/once'
 
 function SafeHydrate({ children }: PropsWithChildren<unknown>) {
     const [isClient, setIsClient] = useState<boolean>(false)
-    useEffect(() => {
+    useOnce(() => {
         setIsClient(true)
-    }, [])
+    })
     return (
         <div suppressHydrationWarning>
             {typeof window === 'undefined' || !isClient ? null : children}
@@ -30,9 +31,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     const [isLoading, addLoadingJob] = usePageLoadingStatus()
     useRouteLoadingStatus()
 
-    useEffect(() => {
+    useOnce(() => {
         addLoadingJob(waitFor(1000), 'min delay')
-    }, [])
+    })
     return (
         <SafeHydrate>
             <Head>{/*  */}</Head>
