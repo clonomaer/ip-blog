@@ -1,6 +1,7 @@
 import { WebsiteLocale } from './interface'
 
 const locale: WebsiteLocale = {
+    main: { genericErrorMessage: 'something went wrong' },
     landing: {
         newPost: 'new post',
     },

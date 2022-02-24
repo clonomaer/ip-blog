@@ -1,4 +1,7 @@
 export interface WebsiteLocale {
+    main: {
+        genericErrorMessage: string
+    }
     landing: {
         newPost: string
     }
