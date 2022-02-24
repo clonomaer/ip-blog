@@ -10,13 +10,31 @@
         @apply font-sans;
     }
 
-    a {
-        color: inherit;
-        text-decoration: none;
-    }
-
-    :global(.code-block) pre {
-        @apply bg-green-500 bg-opacity-10;
+    div {
+        a {
+            color: inherit;
+            text-decoration: none;
+            @apply text-primary;
+        }
+        pre {
+            @apply my-3;
+        }
+        ::marker {
+            @apply text-primary;
+        }
+        :global(.code-block) {
+            pre {
+                @apply bg-green-500 bg-opacity-10;
+            }
+            button {
+                @apply text-page-text bg-primary-darker border border-primary;
+            }
+        }
+        p {
+            code {
+                @apply bg-primary-darker;
+            }
+        }
     }
 
     div:global(.notice-block) {
