@@ -1,12 +1,13 @@
 import React, { PropsWithChildren } from 'react'
 import cn from 'classnames'
-import { usePageLoadingStatus } from 'hooks/page-loading-status'
 import Fade from 'components/Fade'
+import { useObservable } from 'hooks/observable'
+import { isPageLoading$ } from 'observables/is-page-loading'
 
 export default function MainLayout({
     children,
 }: PropsWithChildren<unknown>): React.ReactElement | null {
-    const [isLoading] = usePageLoadingStatus()
+    const isLoading = useObservable(isPageLoading$, { ignoreErrors: true })
     return (
         <Fade
             visible={!isLoading}

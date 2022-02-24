@@ -6,12 +6,13 @@ import LoadingOverlay from 'components/LoadingOverlay'
 import { useMobileVHFix } from 'hooks/mobile-vh-fix'
 import { useMobileHoverFix } from 'hooks/mobile-hover-fix'
 import MainLayout from 'components/MainLayout'
-import { usePageLoadingStatus } from 'hooks/page-loading-status'
-import { waitFor } from 'helpers/wait-for'
 import { useRouteLoadingStatus } from 'hooks/route-loading-status'
 import FlashToast from 'components/FlashToast'
 import BlurOnPortalOpen from 'components/BlurOnPortalOpen'
 import { useOnce } from 'hooks/once'
+import { useObservable } from 'hooks/observable'
+import { isPageLoading$ } from 'observables/is-page-loading'
+import { useHandlePageLoadingFailure } from 'hooks/handle-loading-failure'
 
 function SafeHydrate({ children }: PropsWithChildren<unknown>) {
     const [isClient, setIsClient] = useState<boolean>(false)
@@ -28,12 +29,10 @@ function SafeHydrate({ children }: PropsWithChildren<unknown>) {
 function MyApp({ Component, pageProps }: AppProps) {
     useMobileVHFix()
     useMobileHoverFix()
-    const [isLoading, addLoadingJob] = usePageLoadingStatus()
+    const isLoading = useObservable(isPageLoading$, { ignoreErrors: true })
+    useHandlePageLoadingFailure()
     useRouteLoadingStatus()
 
-    useOnce(() => {
-        addLoadingJob(waitFor(1000), 'min delay')
-    })
     return (
         <SafeHydrate>
             <Head>{/*  */}</Head>
