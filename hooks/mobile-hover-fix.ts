@@ -6,7 +6,10 @@ function replaceStyleSelector(searchValue: string, replaceValue: string) {
         sheetIndex >= 0;
         sheetIndex--
     ) {
-        const sheet = document.styleSheets.item(sheetIndex)
+        let sheet: CSSStyleSheet | null = null
+        try {
+            sheet = document.styleSheets.item(sheetIndex)
+        } catch {}
         if (!sheet) {
             console.error("Couldn't access stylesheet at index ", sheetIndex)
             continue
