@@ -99,7 +99,13 @@ export function useObservable<T>(
         const subscription = unLazy(observable)?.subscribe({
             next: setState,
             error: e =>
-                ignoreErrors ? undefined : setState(new ObservableError(e)),
+                ignoreErrors
+                    ? undefined
+                    : setState(
+                          e instanceof ObservableError
+                              ? e
+                              : new ObservableError(e),
+                      ),
         })
         return () => {
             subscription?.unsubscribe()
