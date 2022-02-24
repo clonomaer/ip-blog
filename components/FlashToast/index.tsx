@@ -49,7 +49,7 @@ export default function FlashToast({
     }, [])
     return (
         <ModalWrapper className={className} control={control.current}>
-            <div className="max-w-full w-96">
+            <div className="max-w-full w-96 text-center">
                 {_.isString(message) ? message : message?.message ?? '??!!'}
             </div>
         </ModalWrapper>
