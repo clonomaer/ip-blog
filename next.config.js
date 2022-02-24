@@ -3,7 +3,7 @@ module.exports = {
     experimental: {},
     future: {},
     reactStrictMode: true,
-    // target: 'serverless',
+    target: 'serverless',
     async rewrites() {
         return [
             {
@@ -18,5 +18,9 @@ module.exports = {
     // },
     images: {
         domains: [],
+    },
+    webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+        config.node = { ...(config.node ?? {}), __dirname: true }
+        return config
     },
 }
