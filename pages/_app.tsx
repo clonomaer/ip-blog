@@ -29,7 +29,10 @@ function SafeHydrate({ children }: PropsWithChildren<unknown>) {
 function MyApp({ Component, pageProps }: AppProps) {
     useMobileVHFix()
     useMobileHoverFix()
-    const isLoading = useObservable(isPageLoading$, { ignoreErrors: true })
+    const isLoading = useObservable(isPageLoading$, {
+        ignoreErrors: true,
+        initialValue: true,
+    })
     useHandlePageLoadingFailure()
     useRouteLoadingStatus()
 
@@ -39,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <FlashToast />
             <LoadingOverlay
                 spinnerProps={{ big: true }}
-                visible={isLoading ?? true}
+                visible={isLoading}
                 skipInitialTransition
                 className={'!z-50 bg-page-bg'}
             />
