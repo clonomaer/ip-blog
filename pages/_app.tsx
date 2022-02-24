@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import React, { PropsWithChildren, useEffect } from 'react'
+import React, { PropsWithChildren, useEffect, useState } from 'react'
 import Head from 'next/head'
 import LoadingOverlay from 'components/LoadingOverlay'
 import { useMobileVHFix } from 'hooks/mobile-vh-fix'
@@ -13,9 +13,13 @@ import FlashToast from 'components/FlashToast'
 import BlurOnPortalOpen from 'components/BlurOnPortalOpen'
 
 function SafeHydrate({ children }: PropsWithChildren<unknown>) {
+    const [isClient, setIsClient] = useState<boolean>(false)
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
     return (
         <div suppressHydrationWarning>
-            {typeof window === 'undefined' ? null : children}
+            {typeof window === 'undefined' || !isClient ? null : children}
         </div>
     )
 }
