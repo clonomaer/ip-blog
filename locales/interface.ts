@@ -1,4 +1,4 @@
-export interface WebsiteLocale {
+export interface WebsiteLocaleData {
     main: {
         genericErrorMessage: string
     }
@@ -23,4 +23,7 @@ export interface WebsiteLocale {
             cancel: string
         }
     }
+}
+export class WebsiteLocale {
+    constructor(public data: WebsiteLocaleData) {}
 }

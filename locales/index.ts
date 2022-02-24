@@ -1,15 +1,38 @@
-import { WebsiteLocale } from './interface'
+import { WebsiteLocale, WebsiteLocaleData } from './interface'
 import { sep } from 'path'
+import { catchError, map, mergeMap, Observable, of, throwError } from 'rxjs'
+import { ObservableError } from 'classes/observable-error'
+import { flashToast$ } from 'contexts/flash-toast'
 
-function importDefault(locale: string) {
-    return import(`.${sep}${locale}`).then(x => x.default)
+function importAndValidateLocale$(locale: string): Observable<WebsiteLocale> {
+    return of(locale).pipe(
+        mergeMap(_locale => import(`.${sep}${_locale}`)),
+        map(x => x.default),
+        mergeMap(x =>
+            x instanceof WebsiteLocale
+                ? of(x)
+                : throwError(
+                      () =>
+                          new ObservableError(
+                              `E0x02 invalid locale data for ${locale}`,
+                          ),
+                  ),
+        ),
+    )
 }
 
-export async function __(locale?: string): Promise<WebsiteLocale> {
-    if (locale) {
-        try {
-            return await importDefault(locale)
-        } catch {}
-    }
-    return importDefault('en')
+export function localeFactory$(
+    locale: string = 'en',
+): Observable<WebsiteLocaleData> {
+    return importAndValidateLocale$(locale).pipe(
+        catchError(err => {
+            flashToast$.next(
+                `${
+                    err?.toString?.() ?? 'E0x03 error loading locale data'
+                }, trying to load fallback locale`,
+            )
+            return importAndValidateLocale$('en')
+        }),
+        map(x => x.data),
+    )
 }

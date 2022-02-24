@@ -1,6 +1,6 @@
 import { WebsiteLocale } from './interface'
 
-const locale: WebsiteLocale = {
+const locale: WebsiteLocale = new WebsiteLocale({
     main: { genericErrorMessage: 'something went wrong' },
     landing: {
         newPost: 'new post',
@@ -19,5 +19,5 @@ const locale: WebsiteLocale = {
         invalidCidError: 'there is no such post available (yet!)',
     },
     userInteraction: { confirmation: { cancel: 'cancel', confirm: 'confirm' } },
-}
+})
 export default locale
