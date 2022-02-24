@@ -3,6 +3,6 @@ import { map } from 'rxjs/operators'
 
 export const Window$ = iif(
     () => typeof window !== 'undefined',
-    of(undefined).pipe(map(() => window)),
+    of(null).pipe(map(() => window)),
     EMPTY,
 )
