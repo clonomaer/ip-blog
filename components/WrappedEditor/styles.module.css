@@ -35,6 +35,16 @@
                 @apply bg-primary-darker;
             }
         }
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            &:nth-child(2) {
+                margin-top: theme('spacing.2');
+            }
+        }
     }
 
     div:global(.notice-block) {
