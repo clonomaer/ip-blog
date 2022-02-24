@@ -11,14 +11,12 @@ const Home: NextPage = ({}) => {
 
     return (
         <div className="flex flex-col justify-center overflow-auto">
-            {__ && (
-                <Button
-                    job={() => {
-                        router.push('/new')
-                    }}>
-                    new post
-                </Button>
-            )}
+            <Button
+                job={() => {
+                    router.push('/new')
+                }}>
+                {__?.landing.newPost}
+            </Button>
         </div>
     )
 }
