@@ -16,9 +16,10 @@ export default function MainLayout({
             visible={!isLoading}
             animationOptions={{
                 enter: { filter: 'blur(0px)', opacity: 1 },
-                leave: { filter: 'blur(0px)', opacity: 1 },
+                leave: { filter: 'blur(100px)', opacity: 1 },
                 from: { filter: 'blur(100px)', opacity: 1 },
                 config: { duration: 500 },
+                expires: false,
             }}
             id="MainLayout"
             className={cn(
