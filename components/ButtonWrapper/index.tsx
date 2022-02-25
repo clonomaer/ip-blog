@@ -21,7 +21,7 @@ export default function withButtonWrapper<
     Component: React.FC<InnerComponentProps>,
 ): React.FC<InnerComponentProps & ButtonWrapperProps> {
     return function WrapperComponent(props) {
-        const [isLoading, setIsLoading] = useState(() => props.isLoading)
+        const [isLoading, setIsLoading] = useState(false)
         return (
             <Component
                 {...props}
@@ -34,7 +34,7 @@ export default function withButtonWrapper<
                     }
                 }}
                 disabled={isLoading || props.disabled}
-                isLoading={isLoading}
+                isLoading={isLoading || props.isLoading}
             />
         )
     }
