@@ -6,7 +6,11 @@ export type LoadingStatus = ReplaySubject<boolean>
 
 export type Screens = 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
-export type ClassName = string | { [className: string]: boolean } | ClassName[]
+export type ClassName =
+    | string
+    | undefined
+    | { [className: string]: boolean }
+    | ClassName[]
 
 export type ImageSrc = ValueTypeOfKey<ImageProps, 'src'>
 
