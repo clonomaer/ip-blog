@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { ipfs$ } from 'contexts/ipfs'
-import { firstValueFrom, reduce } from 'rxjs'
+import { firstValueFrom, mergeMap, reduce } from 'rxjs'
 import { ipfsTextFile$ } from './ipfs-file'
 
 const testCid = 'QmPChd2hVbrJ6bfo3WBcTW4iZnpHm8TEzWkLHmLpXhF68A'
@@ -16,7 +16,10 @@ describe('ipfs file stream', () => {
         const [file$] = ipfsTextFile$(testCid)
         expect(
             await firstValueFrom(
-                file$.pipe(reduce((acc, curr) => acc + curr, '')),
+                file$.pipe(
+                    mergeMap(({ content$ }) => content$),
+                    reduce((acc, curr) => acc.concat(curr), ''),
+                ),
             ),
         ).to.eq(testContent)
 
