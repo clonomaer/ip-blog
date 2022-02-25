@@ -1,7 +1,7 @@
 import { WebsiteLocale } from './interface'
 
 const locale: WebsiteLocale = new WebsiteLocale({
-    main: { genericErrorMessage: 'something went wrong' },
+    main: { genericErrorMessage: 'something went wrong', unknown: 'unknown!' },
     landing: {
         newPost: 'new post',
     },
@@ -15,6 +15,7 @@ const locale: WebsiteLocale = new WebsiteLocale({
         publishConfirmationMessage:
             'are you sure you want to publish this post?',
         publishedSuccessfully: 'your post is up!',
+        publishedOn: 'published on',
     },
     viewPost: {
         invalidCidError: 'are you sure you copied the link right?',

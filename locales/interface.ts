@@ -1,6 +1,7 @@
 export interface WebsiteLocaleData {
     main: {
         genericErrorMessage: string
+        unknown: string
     }
     landing: {
         newPost: string
@@ -14,6 +15,7 @@ export interface WebsiteLocaleData {
         draftSaved: string
         publishConfirmationMessage: string
         publishedSuccessfully: string
+        publishedOn: string
     }
     viewPost: {
         invalidCidError: string
