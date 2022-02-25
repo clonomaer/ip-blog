@@ -16,7 +16,7 @@ const locale: WebsiteLocale = new WebsiteLocale({
             'are you sure you want to publish this post?',
     },
     viewPost: {
-        invalidCidError: 'there is no such post available (yet!)',
+        invalidCidError: 'are you sure you copied the link right?',
     },
     userInteraction: { confirmation: { cancel: 'cancel', confirm: 'confirm' } },
 })
