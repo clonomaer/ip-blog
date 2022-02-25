@@ -1,7 +1,7 @@
-import { isSentinel, Sentinel, SENTINEL } from 'contexts/empty-sentinel'
+import { SENTINEL } from 'contexts/empty-sentinel'
 import _ from 'lodash'
 import { filter, map, OperatorFunction, tap } from 'rxjs'
-import { ControlStreamData } from 'types'
+import { noSentinelOrUndefined } from 'utils/no-sentinel-or-undefined'
 
 export function controlStreamPayload<
     Action extends keyof Payloads,
@@ -10,8 +10,6 @@ export function controlStreamPayload<
     return source =>
         source.pipe(
             map(x => (action in x ? x[action] : SENTINEL)),
-            filter(function isPayload<T>(value: T | Sentinel): value is T {
-                return !isSentinel(value)
-            }),
+            filter(noSentinelOrUndefined),
         )
 }
