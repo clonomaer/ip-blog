@@ -8,7 +8,7 @@ import { useObservable } from 'hooks/observable'
 import { config } from 'configs'
 import _ from 'lodash'
 import ModalWrapper, { ModalControl } from 'components/ModalWrapper'
-import { useModal } from 'hooks/modal-control'
+import { useModal } from 'hooks/modal/modal-control'
 import { controlStreamPayload } from 'operators/control-stream-payload'
 import { useSubscribe } from 'hooks/subscribe'
 
