@@ -24,7 +24,7 @@ export default function MainLayout({
             id="MainLayout"
             className={cn(
                 'scrollbar-hide',
-                // 'px-[max(calc((100vw-75rem)/2),0.5rem)]',
+                'px-[max(calc((100vw-75rem)/2),1rem)]',
                 'min-h-[var(--h-screen)]',
                 isLoading && 'h-[var(--h-screen)]',
                 'flex',
