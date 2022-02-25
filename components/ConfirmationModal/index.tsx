@@ -5,8 +5,13 @@ import Button from 'components/Button'
 import ModalWrapper, { ModalControl } from 'components/ModalWrapper'
 import { useLocale } from 'hooks/locale'
 import { Subject } from 'rxjs'
+import { useControlStream } from 'hooks/control-stream'
 
-export type ConfirmationModalControl = Partial<{ Confirm: true }> & ModalControl
+export type ConfirmationModalControl = Partial<{
+    Confirm: true
+    Loading: boolean
+}> &
+    ModalControl
 export type ConfirmationModalProps = PropsWithChildren<{
     className?: ClassName
     control: Subject<ConfirmationModalControl>
@@ -18,6 +23,7 @@ export default function ConfirmationModal({
     control,
 }: ConfirmationModalProps): React.ReactElement | null {
     const __ = useLocale()
+    const isLoading = useControlStream(control, 'Loading')
     return (
         <ModalWrapper
             className={className}
@@ -57,6 +63,7 @@ export default function ConfirmationModal({
                 </Button>
                 <Button
                     job={() => control.next({ Confirm: true })}
+                    isLoading={isLoading ?? false}
                     className="border-primary bg-primary-darker hover:bg-primary-dark">
                     {__?.userInteraction.confirmation.confirm}
                 </Button>
