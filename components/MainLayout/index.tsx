@@ -7,7 +7,10 @@ import { isPageLoading$ } from 'observables/is-page-loading'
 export default function MainLayout({
     children,
 }: PropsWithChildren<unknown>): React.ReactElement | null {
-    const isLoading = useObservable(isPageLoading$, { ignoreErrors: true })
+    const isLoading = useObservable(isPageLoading$, {
+        ignoreErrors: true,
+        initialValue: true,
+    })
     return (
         <Fade
             visible={!isLoading}
