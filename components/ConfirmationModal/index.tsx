@@ -2,17 +2,14 @@ import React, { PropsWithChildren } from 'react'
 import cn from 'classnames'
 import { ClassName, ControlStream } from 'types'
 import Button from 'components/Button'
-import ModalWrapper, { ModalControlStream } from 'components/ModalWrapper'
+import ModalWrapper, { ModalControl } from 'components/ModalWrapper'
 import { useLocale } from 'hooks/locale'
+import { Subject } from 'rxjs'
 
-export type ConfirmationModalControlStream =
-    ModalControlStream extends ControlStream<infer C>
-        ? ControlStream<C | { type: 'confirm' }>
-        : never
-
+export type ConfirmationModalControl = Partial<{ Confirm: true }> & ModalControl
 export type ConfirmationModalProps = PropsWithChildren<{
     className?: ClassName
-    control: ConfirmationModalControlStream
+    control: Subject<ConfirmationModalControl>
 }>
 
 export default function ConfirmationModal({
@@ -34,14 +31,10 @@ export default function ConfirmationModal({
                     'space-y-2',
                 ),
             }}
-            control={control as ModalControlStream}>
+            control={control}>
             <div className={cn('flex', 'justify-end')}>
                 <Button
-                    job={() =>
-                        control.next({
-                            type: 'requestExit',
-                        })
-                    }
+                    job={() => control.next({ RequestExit: true })}
                     className={cn(
                         'h-8',
                         'w-8',
@@ -57,13 +50,13 @@ export default function ConfirmationModal({
                 <Button
                     job={() =>
                         control.next({
-                            type: 'requestExit',
+                            RequestExit: true,
                         })
                     }>
                     {__?.userInteraction.confirmation.cancel}
                 </Button>
                 <Button
-                    job={() => control.next({ type: 'confirm' })}
+                    job={() => control.next({ Confirm: true })}
                     className="border-primary bg-primary-darker hover:bg-primary-dark">
                     {__?.userInteraction.confirmation.confirm}
                 </Button>

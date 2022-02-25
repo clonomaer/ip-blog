@@ -1,24 +1,25 @@
 import React, { PropsWithChildren, useEffect, useRef } from 'react'
 import cn from 'classnames'
-import { ClassName, ControlStream } from 'types'
+import { ClassName, ControlStream, Not } from 'types'
 import Portal from 'components/Portal'
 import { useControlStream } from 'hooks/control-stream'
 import Fade from 'components/Fade'
 import { canHoverMediaQuery, observeMediaQuery } from 'hooks/responsive'
 import { shouldBlurBehindPortal$ } from 'contexts/should-blur-behind-portal'
 import { useSubscribe } from 'hooks/subscribe'
-import { combineLatest, filter, map, tap } from 'rxjs'
+import { combineLatest, filter, map, Subject, tap } from 'rxjs'
+import { controlStreamPayload } from 'operators/control-stream-data'
+import _ from 'lodash'
 
-export type ModalControlStreamOptions =
-    | { type: 'requestExit' }
-    | { type: 'display'; data: boolean }
-
-export type ModalControlStream = ControlStream<ModalControlStreamOptions>
+export type ModalControl = Partial<{
+    RequestExit: true
+    Display: boolean
+}>
 
 export type ModalWrapperProps = PropsWithChildren<{
     className?: ClassName
     classNames?: { container?: ClassName }
-    control: ModalControlStream
+    control: Subject<ModalControl>
 }>
 
 export default function ModalWrapper({
@@ -27,14 +28,14 @@ export default function ModalWrapper({
     children,
     control,
 }: ModalWrapperProps): React.ReactElement | null {
-    const display = useControlStream(control, 'display')
+    const display = useControlStream(control, 'Display')
 
     useSubscribe(
         () =>
             combineLatest([
                 control.pipe(
-                    filter(x => x.type === 'display'),
-                    map(x => ('data' in x ? x.data : false)),
+                    controlStreamPayload('Display'),
+                    filter((value): value is boolean => value !== undefined),
                 ),
                 observeMediaQuery(canHoverMediaQuery),
             ]).pipe(map(([display, canHover]) => display && canHover)),
@@ -52,10 +53,10 @@ export default function ModalWrapper({
         <Portal>
             <Fade
                 visible={display ?? false}
-                onClick={() => control.next({ type: 'requestExit' })}
+                onClick={() => control.next({ RequestExit: true })}
                 tabIndex={0}
                 onKeyDown={e =>
-                    e.key === 'Escape' && control.next({ type: 'requestExit' })
+                    e.key === 'Escape' && control.next({ RequestExit: true })
                 }
                 ref={ref}>
                 <div

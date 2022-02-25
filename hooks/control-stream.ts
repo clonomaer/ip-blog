@@ -1,20 +1,17 @@
-import {
-    ControlStream,
-    ControlStreamAction,
-    InferControlStreamActionDataType,
-} from 'types'
-import { filterControlStream } from 'utils/filter-control-stream'
+import { controlStreamPayload } from 'operators/control-stream-data'
+import { Subject } from 'rxjs'
+import { ControlStream } from 'types'
 import { useObservable } from './observable'
 
 export function useControlStream<
-    A extends ControlStreamAction,
-    T extends A['type'],
+    Action extends keyof Payloads,
+    Payloads extends _.Dictionary<unknown>,
 >(
-    control: ControlStream<A> | undefined,
-    type: T,
-): InferControlStreamActionDataType<A, T> | null | undefined {
-    const data = useObservable(
-        control ? () => filterControlStream(control, type) : null,
-    )
+    control: Subject<Payloads> | undefined,
+    action: Action,
+): Payloads[Action] | undefined {
+    const data = useObservable(control?.pipe(controlStreamPayload(action)), {
+        ignoreErrors: true,
+    })
     return data
 }

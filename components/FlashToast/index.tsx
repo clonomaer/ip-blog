@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import cn from 'classnames'
 import { ClassName } from 'types'
-import ModalWrapper, {
-    ModalControlStream,
-    ModalControlStreamOptions,
-} from 'components/ModalWrapper'
 import { useLazyRef } from 'hooks/lazy-ref'
 import { filter, map, merge, of, Subject, switchAll, timer } from 'rxjs'
 import { flashToast$ } from 'contexts/flash-toast'
 import { useObservable } from 'hooks/observable'
 import { config } from 'configs'
 import _ from 'lodash'
+import ModalWrapper, { ModalControl } from 'components/ModalWrapper'
+import { useModal } from 'hooks/modal-control'
+import { controlStreamPayload } from 'operators/control-stream-data'
+import { useSubscribe } from 'hooks/subscribe'
 
 export type FlashToastProps = {
     className?: ClassName
@@ -19,36 +19,40 @@ export type FlashToastProps = {
 export default function FlashToast({
     className,
 }: FlashToastProps): React.ReactElement | null {
-    const control = useLazyRef<ModalControlStream>(() => new Subject())
+    const control = useModal<ModalControl>()
     const message = useObservable(flashToast$)
-    useEffect(() => {
-        flashToast$
-            .pipe(
+
+    useSubscribe(
+        () =>
+            flashToast$.pipe(
                 map(msg =>
-                    merge<ModalControlStreamOptions[]>(
-                        of({ type: 'display', data: true }),
+                    merge<ModalControl[]>(
+                        of({ Display: true }),
                         timer(
                             _.isString(msg)
                                 ? !msg.startsWith('E0x')
                                     ? config.Delays.confirm
                                     : config.Delays.errorFlash
                                 : msg.timeout,
-                        ).pipe(map(() => ({ type: 'display', data: false }))),
+                        ).pipe(map(() => ({ Display: false }))),
                     ),
                 ),
                 switchAll(),
-            )
-            .subscribe(control.current)
+            ),
+        control,
+    )
 
-        control.current
-            .pipe(
-                filter(x => x.type === 'requestExit'),
-                map(() => ({ type: 'display' as 'display', data: false })),
-            )
-            .subscribe(control.current)
-    }, [])
+    useSubscribe(
+        () =>
+            control.pipe(
+                controlStreamPayload('RequestExit'),
+                map(() => ({ Display: false })),
+            ),
+        control,
+    )
+
     return (
-        <ModalWrapper className={className} control={control.current}>
+        <ModalWrapper className={className} control={control}>
             <div className="max-w-full w-96 text-center">
                 {_.isString(message) ? message : message?.message ?? '??!!'}
             </div>

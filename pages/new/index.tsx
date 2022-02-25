@@ -6,7 +6,7 @@ import { editorContent$, editorContentChanged$ } from 'contexts/editor-content'
 import { useObservable } from 'hooks/observable'
 import { filter, map, Subject, take } from 'rxjs'
 import ConfirmationModal, {
-    ConfirmationModalControlStream,
+    ConfirmationModalControl,
 } from 'components/ConfirmationModal'
 import { useLazyRef } from 'hooks/lazy-ref'
 import { useSubscribe } from 'hooks/subscribe'
@@ -16,22 +16,23 @@ import { flashToast$ } from 'contexts/flash-toast'
 import WrappedEditor from 'components/WrappedEditor'
 import _ from 'lodash'
 import { truthy } from 'helpers/truthy'
+import { controlStreamPayload } from 'operators/control-stream-data'
+import { useModal } from 'hooks/modal-control'
 
 export type NewPageProps = {}
 
 const NewPage: NextPage<NewPageProps> = ({}) => {
     const __ = useLocale()
     const editorSavedValue = useObservable(() => editorContent$.pipe(take(1)))
-    const modalControl = useLazyRef<ConfirmationModalControlStream>(
-        () => new Subject(),
-    )
+    const modalControl = useModal<ConfirmationModalControl>()
+
     useSubscribe(
         () =>
-            modalControl.current.pipe(
-                filter(x => x.type === 'requestExit'),
-                map(() => ({ type: 'display' as 'display', data: false })),
+            modalControl.pipe(
+                controlStreamPayload('RequestExit'),
+                map(() => ({ Display: false })),
             ),
-        modalControl.current,
+        modalControl,
     )
 
     const handlePublish = useMemo(
@@ -42,9 +43,8 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
                     map(f => f()),
                 )
                 .subscribe(editorContent$)
-            modalControl.current.next({
-                type: 'display',
-                data: true,
+            modalControl.next({
+                Display: true,
             })
         },
         [modalControl],
@@ -83,7 +83,7 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
                 <Button job={handleSaveDraft}>{__?.editPost.draft}</Button>
                 <Button job={handlePublish}>{__?.editPost.publish}</Button>
             </div>
-            <ConfirmationModal control={modalControl.current}>
+            <ConfirmationModal control={modalControl}>
                 <div className="max-w-xs">
                     {__?.editPost.publishConfirmationMessage}
                 </div>
