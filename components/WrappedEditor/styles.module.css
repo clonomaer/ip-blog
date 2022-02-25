@@ -1,9 +1,7 @@
 .container {
-    @apply bg-page-bg;
-
     & > div,
     span:global(.heading-actions) {
-        @apply bg-page-bg;
+        @apply bg-transparent;
     }
 
     * {
@@ -22,17 +20,18 @@
         ::marker {
             @apply text-primary;
         }
-        :global(.code-block) {
+        /** hack */
+        :global(.code-block):global(.code-block) {
             pre {
-                @apply bg-green-500 bg-opacity-10;
+                @apply bg-[#0e262f] bg-opacity-30 rounded-lg;
             }
             button {
-                @apply text-page-text bg-primary-darker border border-primary;
+                @apply text-page-text bg-primary-darker border-2 border-primary shadow-none right-0 top-0 border-solid rounded-lg px-2;
             }
         }
         p {
             code {
-                @apply bg-primary-darker;
+                @apply bg-[#0e262f] py-1 px-2;
             }
         }
         h1,

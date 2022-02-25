@@ -16,8 +16,18 @@ export default function WrappedEditor({
         <Editor
             dark
             className={cn(
-                'px-7 py-3 border-2 border-primary-darker h-full w-full flex-grow',
+                'px-7',
+                'py-5',
+                'h-full',
+                'w-full',
+                'flex-grow',
+                'bg-indigo-800',
+                'bg-opacity-10',
+                'rounded-2xl',
+                'border',
+                'border-primary-dark',
                 'revert-tailwind-preflight',
+                'shadow-strong',
                 styles.container,
                 className,
             )}
