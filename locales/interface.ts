@@ -2,6 +2,7 @@ export interface WebsiteLocaleData {
     main: {
         genericErrorMessage: string
         unknown: string
+        done: string
     }
     landing: {
         newPost: string
