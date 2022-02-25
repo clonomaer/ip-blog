@@ -33,7 +33,8 @@ export default function MainLayout({
                 'overflow-hidden',
                 'children:max-w-full',
                 'children:max-h-full',
-            )}>
+            )}
+            classNames={{ wrapper: 'flex-grow' }}>
             {children}
         </Fade>
     )
