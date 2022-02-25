@@ -54,6 +54,7 @@ export default function ConfirmationModal({
             <div className="px-3">{children}</div>
             <div className={cn('flex justify-end')}>
                 <Button
+                    disabled={isLoading}
                     job={() =>
                         control.next({
                             RequestExit: true,
@@ -64,7 +65,7 @@ export default function ConfirmationModal({
                 <Button
                     job={() => control.next({ Confirm: true })}
                     isLoading={isLoading ?? false}
-                    className="border-primary bg-primary-darker hover:bg-primary-dark">
+                    active>
                     {__?.userInteraction.confirmation.confirm}
                 </Button>
             </div>
