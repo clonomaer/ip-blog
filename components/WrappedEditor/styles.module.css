@@ -26,7 +26,7 @@
                 @apply bg-[#0e262f] bg-opacity-30 rounded-lg;
             }
             button {
-                @apply text-page-text bg-primary-darker border-2 border-primary shadow-none right-0 top-0 border-solid rounded-lg px-2;
+                @apply text-page-text bg-primary-darker border-2 border-primary-dark shadow-none right-0 top-0 border-solid rounded-lg px-2;
             }
         }
         p {
