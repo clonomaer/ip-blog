@@ -5,7 +5,7 @@ import Portal from 'components/Portal'
 import { useControlStream } from 'hooks/control-stream'
 import Fade from 'components/Fade'
 import { canHoverMediaQuery, observeMediaQuery } from 'hooks/responsive'
-import { portalStatus$ } from 'contexts/portal-status'
+import { shouldBlurBehindPortal$ } from 'contexts/should-blur-behind-portal'
 import { useSubscribe } from 'hooks/subscribe'
 import { combineLatest, filter, map, tap } from 'rxjs'
 
@@ -38,7 +38,7 @@ export default function ModalWrapper({
                 ),
                 observeMediaQuery(canHoverMediaQuery),
             ]).pipe(map(([display, canHover]) => display && canHover)),
-        portalStatus$,
+        shouldBlurBehindPortal$,
     )
 
     const ref = useRef<HTMLDivElement>(null)
