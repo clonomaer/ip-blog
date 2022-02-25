@@ -35,15 +35,28 @@ const Button = withButtonWrapper<ButtonProps>(function InnerButton({
     return (
         <button
             className={cn(
-                'rounded-lg border transition-colors duration-150 px-4 py-2 m-2 disabled:border-gray-500 disabled:bg-gray-800 disabled:text-gray-500 hover:border-gray-400 hover:text-page-text-hover',
+                'rounded-lg',
+                'border',
+                'transition-colors',
+                'duration-150',
+                'px-4',
+                'py-2',
+                'm-2',
+                'disabled:border-gray-500',
+                'disabled:bg-gray-800',
+                'disabled:bg-opacity-30',
+                'disabled:text-gray-500',
+                'hover:border-gray-400',
+                'hover:text-page-text-hover',
+                'disabled:cursor-not-allowed',
                 active
                     ? activeClassName ??
-                          'border-primary bg-primary-dark active:bg-primary-dark'
+                          'border-primary bg-primary-darker active:bg-primary-darker'
                     : inactiveClassName ??
                           'border-primary-dark active:bg-primary-dark',
                 'relative',
                 isLoading &&
-                    'text-transparent hover:text-transparent disabled:text-transparent',
+                    'cursor-wait disabled:cursor-wait text-transparent hover:text-transparent disabled:text-transparent',
                 className,
             )}
             {..._.omit(props, 'job')}>
