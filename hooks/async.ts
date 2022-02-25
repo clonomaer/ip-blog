@@ -85,7 +85,7 @@ export function useAsync<T, R>(
                 }
                 return setSync(value)
             },
-            error: errorHandler,
+            error: e => errorHandler?.(e),
         })
         return () => {
             subscription.unsubscribe()

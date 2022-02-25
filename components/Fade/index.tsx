@@ -33,7 +33,7 @@ export type FadeProps<
     classNames?: { wrapper?: ClassName }
     visible: boolean
     mode?: FadeMode
-    skipInitialTransition?: boolean
+    skipInitialTransition?: boolean | undefined
     animationOptions?: ExtraAnimationOptions<ExtraAnimationProps>
     animationOptionsTransformer?: (styles: {
         [prop in keyof CSSProperties]: SpringValue
@@ -47,7 +47,7 @@ function InnerFade<ExtraAnimationProps>(
         visible,
         mode = 'opacity',
         children,
-        skipInitialTransition,
+        skipInitialTransition = false,
         animationOptions,
         animationOptionsTransformer = _.identity,
         ...props

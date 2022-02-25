@@ -30,7 +30,8 @@
         "noImplicitThis": true,
         "noUncheckedIndexedAccess": true,
         "noUnusedLocals": false,
-        "noUnusedParameters": true
+        "noUnusedParameters": true,
+        "exactOptionalPropertyTypes": true
     },
     "include": ["next-env.d.ts", "./**/*.ts", "./**/*.tsx"],
     "exclude": ["node_modules", "./build", "./.next", "./out"]
