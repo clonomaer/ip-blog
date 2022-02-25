@@ -2,6 +2,7 @@ import { ObservableError } from 'classes/observable-error'
 import { ipfs$ } from 'contexts/ipfs'
 import _ from 'lodash'
 import { iif, map, mergeAll, Observable, throwError } from 'rxjs'
+import isIPFS from 'is-ipfs'
 
 export class InvalidCIDError extends ObservableError {
     constructor() {
@@ -15,7 +16,7 @@ export function ipfsTextFile$(
     const controller = new AbortController()
     const decoder = new TextDecoder()
     const res = iif(
-        () => _.isEmpty(cid),
+        () => _.isEmpty(cid) || !isIPFS.cid(cid),
         throwError(() => new InvalidCIDError()),
         ipfs$.pipe(
             map(x => x.cat(cid!, { signal: controller.signal })),
