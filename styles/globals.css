@@ -8,8 +8,7 @@
 @import './fonts/index.css';
 
 html {
-    background-color: theme('colors.page-bg');
-    color: theme('colors.page-text');
+    @apply text-page-text bg-gradient-to-tl from-page-bg to-[#0e1f2f] via-[hsl(120,40%,5%)] bg-fixed;
     --h-screen: calc(var(--vh, 1vh) * 100);
     min-height: -webkit-fill-available;
     max-height: -webkit-fill-available;
