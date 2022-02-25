@@ -16,7 +16,7 @@ import { flashToast$ } from 'contexts/flash-toast'
 import WrappedEditor from 'components/WrappedEditor'
 import _ from 'lodash'
 import { truthy } from 'helpers/truthy'
-import { controlStreamPayload } from 'operators/control-stream-data'
+import { controlStreamPayload } from 'operators/control-stream-payload'
 import { useModal } from 'hooks/modal-control'
 
 export type NewPageProps = {}

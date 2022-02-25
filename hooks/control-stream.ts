@@ -1,4 +1,4 @@
-import { controlStreamPayload } from 'operators/control-stream-data'
+import { controlStreamPayload } from 'operators/control-stream-payload'
 import { Subject } from 'rxjs'
 import { ControlStream } from 'types'
 import { useObservable } from './observable'

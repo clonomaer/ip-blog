@@ -8,7 +8,7 @@ import { canHoverMediaQuery, observeMediaQuery } from 'hooks/responsive'
 import { shouldBlurBehindPortal$ } from 'contexts/should-blur-behind-portal'
 import { useSubscribe } from 'hooks/subscribe'
 import { combineLatest, filter, map, Subject, tap } from 'rxjs'
-import { controlStreamPayload } from 'operators/control-stream-data'
+import { controlStreamPayload } from 'operators/control-stream-payload'
 import _ from 'lodash'
 
 export type ModalControl = Partial<{

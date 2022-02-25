@@ -9,7 +9,7 @@ import { config } from 'configs'
 import _ from 'lodash'
 import ModalWrapper, { ModalControl } from 'components/ModalWrapper'
 import { useModal } from 'hooks/modal-control'
-import { controlStreamPayload } from 'operators/control-stream-data'
+import { controlStreamPayload } from 'operators/control-stream-payload'
 import { useSubscribe } from 'hooks/subscribe'
 
 export type FlashToastProps = {
