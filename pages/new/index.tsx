@@ -58,7 +58,7 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
             editorContent$
                 .pipe(
                     map(x => ipfsPushText$(x)),
-                    mergeMap(([cid$, controller]) => cid$),
+                    mergeMap(([cid$]) => cid$),
                     tap(() => {
                         modalControl.next({ Loading: false, Display: false })
                     }),
