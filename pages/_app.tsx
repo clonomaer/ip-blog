@@ -13,6 +13,8 @@ import { useOnce } from 'hooks/once'
 import { useObservable } from 'hooks/observable'
 import { isPageLoading$ } from 'observables/is-page-loading'
 import { useHandlePageLoadingFailure } from 'hooks/handle-loading-failure'
+import { useSubscribe } from 'hooks/subscribe'
+import { pageLoadingJobs$ } from 'contexts/loading-jobs'
 
 function SafeHydrate({ children }: PropsWithChildren<unknown>) {
     const [isClient, setIsClient] = useState<boolean>(false)
@@ -43,7 +45,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             <LoadingOverlay
                 spinnerProps={{ big: true }}
                 visible={isLoading}
-                skipInitialTransition
                 className={'!z-50 bg-page-bg'}
             />
             <BlurOnPortalOpen>
