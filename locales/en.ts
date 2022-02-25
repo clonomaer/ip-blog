@@ -14,6 +14,7 @@ const locale: WebsiteLocale = new WebsiteLocale({
         draftSaved: 'saved!',
         publishConfirmationMessage:
             'are you sure you want to publish this post?',
+        publishedSuccessfully: 'your post is up!',
     },
     viewPost: {
         invalidCidError: 'are you sure you copied the link right?',

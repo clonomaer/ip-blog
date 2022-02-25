@@ -18,6 +18,7 @@ export const ipfs$ = ipfsNode$.pipe(
         ipfs.isOnline() ? of(ipfs) : throwError(() => 'ipfs is not ready'),
     ),
     retryWhen(() => timer(config.Retry.Timeout)),
+    shareReplay(1),
 )
 
 ipfs$.subscribe({ complete: () => console.log('ipfs node online') })

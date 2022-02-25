@@ -1,6 +1,14 @@
 import { WebsiteLocale, WebsiteLocaleData } from './interface'
 import { sep } from 'path'
-import { catchError, map, mergeMap, Observable, of, throwError } from 'rxjs'
+import {
+    catchError,
+    map,
+    mergeMap,
+    Observable,
+    of,
+    ReplaySubject,
+    throwError,
+} from 'rxjs'
 import { ObservableError } from 'classes/observable-error'
 import { flashToast$ } from 'contexts/flash-toast'
 
@@ -21,10 +29,12 @@ function importAndValidateLocale$(locale: string): Observable<WebsiteLocale> {
     )
 }
 
+export const __$ = new ReplaySubject<WebsiteLocaleData>(1)
+
 export function localeFactory$(
     locale: string = 'en',
 ): Observable<WebsiteLocaleData> {
-    return importAndValidateLocale$(locale).pipe(
+    const res = importAndValidateLocale$(locale).pipe(
         catchError(err => {
             flashToast$.next(
                 `${
@@ -35,4 +45,6 @@ export function localeFactory$(
         }),
         map(x => x.data),
     )
+    res.subscribe(__$)
+    return res
 }

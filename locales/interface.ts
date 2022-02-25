@@ -13,6 +13,7 @@ export interface WebsiteLocaleData {
         draft: string
         draftSaved: string
         publishConfirmationMessage: string
+        publishedSuccessfully: string
     }
     viewPost: {
         invalidCidError: string

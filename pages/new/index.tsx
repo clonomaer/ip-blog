@@ -4,7 +4,21 @@ import { useLocale } from 'hooks/locale'
 import Button from 'components/Button'
 import { editorContent$, editorContentChanged$ } from 'contexts/editor-content'
 import { useObservable } from 'hooks/observable'
-import { filter, map, Subject, take } from 'rxjs'
+import {
+    combineLatest,
+    delay,
+    filter,
+    map,
+    mergeMap,
+    of,
+    sample,
+    shareReplay,
+    startWith,
+    Subject,
+    take,
+    tap,
+    timer,
+} from 'rxjs'
 import ConfirmationModal, {
     ConfirmationModalControl,
 } from 'components/ConfirmationModal'
@@ -14,10 +28,15 @@ import { localCache } from 'contexts/local-cache'
 import { config } from 'configs'
 import { flashToast$ } from 'contexts/flash-toast'
 import WrappedEditor from 'components/WrappedEditor'
-import _ from 'lodash'
+import _, { merge } from 'lodash'
 import { truthy } from 'helpers/truthy'
 import { controlStreamPayload } from 'operators/control-stream-payload'
 import { useModal } from 'hooks/modal/modal-control'
+import { noSentinelOrUndefined } from 'utils/no-sentinel-or-undefined'
+import { useAcceptExitUnlessLoading } from 'hooks/modal/accept-exit-unless-loading'
+import { ipfsPushText$ } from 'providers/ipfs-push'
+import { useRouter } from 'next/router'
+import { __$ } from 'locales'
 
 export type NewPageProps = {}
 
@@ -25,14 +44,37 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
     const __ = useLocale()
     const editorSavedValue = useObservable(() => editorContent$.pipe(take(1)))
     const modalControl = useModal<ConfirmationModalControl>()
+    useAcceptExitUnlessLoading(modalControl)
 
+    const router = useRouter()
     useSubscribe(
         () =>
             modalControl.pipe(
-                controlStreamPayload('RequestExit'),
-                map(() => ({ Display: false })),
+                controlStreamPayload('Confirm'),
+                filter(noSentinelOrUndefined),
             ),
-        modalControl,
+        () => {
+            modalControl.next({ Loading: true })
+            editorContent$
+                .pipe(
+                    map(x => ipfsPushText$(x)),
+                    mergeMap(([cid$, controller]) => cid$),
+                    tap(() => {
+                        modalControl.next({ Loading: false, Display: false })
+                    }),
+                    delay(config.Delays.min),
+                    tap(() => {
+                        flashToast$.next('') //hack: fixes the bug!
+                        __$.subscribe(__ => {
+                            flashToast$.next(__.editPost.publishedSuccessfully)
+                        })
+                    }),
+                    delay(config.Delays.confirm),
+                )
+                .subscribe(cid => {
+                    router.push(`/post?postId=${cid.toString?.()}`)
+                })
+        },
     )
 
     const handlePublish = useMemo(
@@ -42,7 +84,7 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
                     take(1),
                     map(f => f()),
                 )
-                .subscribe(editorContent$)
+                .subscribe(x => editorContent$.next(x))
             modalControl.next({
                 Display: true,
             })
