@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
+import React, { DependencyList, useMemo } from 'react'
 
 export function useClipboardCopy(
     ref: React.MutableRefObject<HTMLElement | null>,
     successCallback: () => void,
+    dependencies?: DependencyList,
 ): () => void {
     return useMemo(
         () =>
@@ -25,6 +26,6 @@ export function useClipboardCopy(
                     selection?.removeAllRanges()
                 }
             },
-        [ref, successCallback],
+        [ref, successCallback, ...(dependencies ?? [])],
     )
 }
