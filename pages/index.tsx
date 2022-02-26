@@ -13,13 +13,15 @@ const Home: NextPage = ({}) => {
     const ipfs = useObservable(ipfs$)
 
     return (
-        <div className="flex flex-col justify-center overflow-auto">
+        <div className="flex flex-col justify-center items-center overflow-auto">
+            <div className="flex flex-col w-56">
             <Button
                 job={() => {
                     router.push('/new')
                 }}>
                 {__?.landing.newPost}
             </Button>
+            </div>
         </div>
     )
 }
