@@ -1,3 +1,3 @@
 import { BehaviorSubject } from 'rxjs'
 
-export const shouldBlurBehindPortal$ = new BehaviorSubject<boolean>(false)
+export const isPortalOpen = new BehaviorSubject<boolean>(false)

@@ -1,10 +1,12 @@
 import React, { PropsWithChildren } from 'react'
 import cn from 'classnames'
 import { ClassName } from 'types'
-import { shouldBlurBehindPortal$ } from 'contexts/should-blur-behind-portal'
+import { isPortalOpen } from 'contexts/should-blur-behind-portal'
 import { useObservable } from 'hooks/observable'
 import { truthy } from 'helpers/truthy'
 import { animated, useSpring } from 'react-spring'
+import { canHoverMediaQuery, observeMediaQuery } from 'hooks/responsive'
+import { combineLatest, map } from 'rxjs'
 
 export type BlurOnPortalOpenProps = PropsWithChildren<{
     className?: ClassName
@@ -14,7 +16,12 @@ export default function BlurOnPortalOpen({
     className,
     children,
 }: BlurOnPortalOpenProps): React.ReactElement | null {
-    const shouldBlur = useObservable(shouldBlurBehindPortal$)
+    const shouldBlur = useObservable(
+        combineLatest([
+            isPortalOpen,
+            observeMediaQuery(canHoverMediaQuery),
+        ]).pipe(map(([display, canHover]) => display && canHover)),
+    )
     const styles = useSpring({
         from: {
             filter: truthy(shouldBlur, false) ? 'blur(0px)' : 'blur(10px)',

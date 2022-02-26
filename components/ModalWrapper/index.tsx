@@ -5,11 +5,12 @@ import Portal from 'components/Portal'
 import { useControlStream } from 'hooks/control-stream'
 import Fade from 'components/Fade'
 import { canHoverMediaQuery, observeMediaQuery } from 'hooks/responsive'
-import { shouldBlurBehindPortal$ } from 'contexts/should-blur-behind-portal'
+import { isPortalOpen } from 'contexts/should-blur-behind-portal'
 import { useSubscribe } from 'hooks/subscribe'
 import { combineLatest, filter, map, Subject, tap } from 'rxjs'
 import { controlStreamPayload } from 'operators/control-stream-payload'
 import _ from 'lodash'
+import { noSentinelOrUndefined } from 'utils/no-sentinel-or-undefined'
 
 export type ModalControl = Partial<{
     RequestExit: true
@@ -32,14 +33,11 @@ export default function ModalWrapper({
 
     useSubscribe(
         () =>
-            combineLatest([
-                control.pipe(
-                    controlStreamPayload('Display'),
-                    filter((value): value is boolean => value !== undefined),
-                ),
-                observeMediaQuery(canHoverMediaQuery),
-            ]).pipe(map(([display, canHover]) => display && canHover)),
-        shouldBlurBehindPortal$,
+            control.pipe(
+                controlStreamPayload('Display'),
+                filter(noSentinelOrUndefined),
+            ),
+        isPortalOpen,
     )
 
     const ref = useRef<HTMLDivElement>(null)
