@@ -5,10 +5,6 @@ class MyDocument extends Document {
         return (
             <Html style={{ backgroundColor: 'hsl(120,40%,5%)' }}>
                 <Head>
-                    <meta
-                        name="viewport"
-                        content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no"
-                    />
                     <meta name="theme-color" content="#0e1f2f" />
                 </Head>
                 <div
