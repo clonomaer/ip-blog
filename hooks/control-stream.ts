@@ -10,8 +10,11 @@ export function useControlStream<
     control: Subject<Payloads> | undefined,
     action: Action,
 ): Payloads[Action] | undefined {
-    const data = useObservable(control?.pipe(controlStreamPayload(action)), {
-        ignoreErrors: true,
-    })
+    const data = useObservable(
+        () => control?.pipe(controlStreamPayload(action)),
+        {
+            ignoreErrors: true,
+        },
+    )
     return data
 }
