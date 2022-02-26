@@ -8,16 +8,17 @@
 @import './fonts/index.css';
 
 html {
-    @apply text-page-text bg-gradient-to-tl from-page-bg to-[#0e1f2f] via-[hsl(120,40%,5%)] bg-fixed;
+    @apply h-screen text-page-text !bg-gradient-to-tl from-page-bg to-[#0e1f2f] via-[hsl(120,40%,5%)];
     --h-screen: calc(var(--vh, 1vh) * 100);
     min-height: -webkit-fill-available;
     max-height: -webkit-fill-available;
-    font-size: max(1em, min(1.7vmin, 1.2vw));
+    font-size: max(1em, min(1.4vmin, 1.2vw));
     @media screen and (max-width: 400px) and (orientation: portrait),
         (max-height: 400px) and (orientation: landscape) {
         font-size: 85%;
     }
     body {
+        @apply overscroll-none;
         min-height: var(--h-screen);
         max-height: var(--h-screen);
         #__next {

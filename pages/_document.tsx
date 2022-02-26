@@ -3,13 +3,13 @@ import Document, { Html, Head, Main, NextScript } from 'next/document'
 class MyDocument extends Document {
     render(): JSX.Element {
         return (
-            <Html className="h-screen" style={{ backgroundColor: '#090c09' }}>
+            <Html style={{ backgroundColor: 'hsl(120,40%,5%)' }}>
                 <Head>
                     <meta
                         name="viewport"
                         content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no"
                     />
-                    <meta name="theme-color" content="#090c09" />
+                    <meta name="theme-color" content="#0e1f2f" />
                 </Head>
                 <div
                     className="font-serif"
