@@ -45,7 +45,10 @@ export default function ModalWrapper({
     const ref = useRef<HTMLDivElement>(null)
     useEffect(() => {
         if (display) {
-            ref.current?.focus()
+            ref.current?.focus({ preventScroll: true })
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'auto'
         }
     }, [ref.current, display]) //eslint-disable-line react-hooks/exhaustive-deps
 
