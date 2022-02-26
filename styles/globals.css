@@ -6,6 +6,7 @@
 @import 'tailwindcss/variants.css';
 
 @import './fonts/index.css';
+@import './icons/unicon.css';
 
 html {
     @apply h-screen text-page-text !bg-gradient-to-tl from-page-bg to-[#0e1f2f] via-[hsl(120,40%,5%)] bg-fixed;
@@ -17,6 +18,8 @@ html {
         (max-height: 400px) and (orientation: landscape) {
         font-size: 85%;
     }
+    scrollbar-width: 0.5rem;
+    scrollbar-color: theme('colors.primary-dark') transparent;
     body {
         @apply overscroll-none;
         min-height: var(--h-screen);
@@ -24,6 +27,12 @@ html {
         #__next {
             min-height: var(--h-screen);
             max-height: var(--h-screen);
+        }
+        &::-webkit-scrollbar {
+            @apply w-2;
+        }
+        &::-webkit-scrollbar-thumb {
+            @apply bg-primary-dark rounded-lg;
         }
     }
 }
@@ -41,6 +50,7 @@ a {
 
 * {
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 .scrollbar-hide {
