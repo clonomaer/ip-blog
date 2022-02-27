@@ -19,7 +19,6 @@ export default function WrappedEditor({
 }: WrappedEditorProps): React.ReactElement | null {
     const [shouldExpand, setShouldExpand] = useState<boolean>(false)
     const isMobile = useUntil('sm')
-    console.log('isMobile', isMobile)
     const ref = useRef<Editor>()
     useSubscribe(
         () =>
