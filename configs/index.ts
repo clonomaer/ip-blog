@@ -35,4 +35,5 @@ export const config = {
         AutoSaveDelay: 20 * 1000,
         CacheKey: 'editor-content-auto-save',
     },
+    Web3ProviderIdCacheKey: 'web3-provider-id-cache',
 }

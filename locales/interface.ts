@@ -31,6 +31,9 @@ export interface WebsiteLocaleData {
             cancel: string
         }
     }
+    web3Provider: {
+        changedWillReload: string
+    }
 }
 export class WebsiteLocale {
     constructor(public data: WebsiteLocaleData) {}

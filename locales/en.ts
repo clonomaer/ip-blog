@@ -29,5 +29,9 @@ const locale: WebsiteLocale = new WebsiteLocale({
         copyButton: 'CID',
     },
     userInteraction: { confirmation: { cancel: 'cancel', confirm: 'confirm' } },
+    web3Provider: {
+        changedWillReload:
+            'Web3 (wallet) provider has changed. page will reload to apply changes.',
+    },
 })
 export default locale
