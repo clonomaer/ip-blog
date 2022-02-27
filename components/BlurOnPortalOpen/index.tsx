@@ -16,18 +16,13 @@ export default function BlurOnPortalOpen({
     className,
     children,
 }: BlurOnPortalOpenProps): React.ReactElement | null {
-    const shouldBlur = useObservable(
-        combineLatest([
-            isPortalOpen$,
-            observeMediaQuery(canHoverMediaQuery),
-        ]).pipe(map(([display, canHover]) => display && canHover)),
-    )
+    const shouldBlur = useObservable(isPortalOpen$)
     const styles = useSpring({
         from: {
-            filter: truthy(shouldBlur, false) ? 'blur(0px)' : 'blur(10px)',
+            filter: `blur(${truthy(shouldBlur, false) ? 0 : 10}px)`,
         },
         to: {
-            filter: truthy(shouldBlur, false) ? 'blur(10px)' : 'blur(0px)',
+            filter: `blur(${truthy(shouldBlur, false) ? 10 : 0}px)`,
         },
         config: { duration: 500 },
     })
