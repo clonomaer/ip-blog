@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import cn from 'classnames'
 import { ClassName } from 'types'
 import styles from './styles.module.css'
 import Editor, { Props as EditorProps } from 'rich-markdown-editor'
+import { fromEvent, throttleTime } from 'rxjs'
+import { useSubscribe } from 'hooks/subscribe'
+import { useMeasure } from 'hooks/measure'
 
 export type WrappedEditorProps = {
     className?: ClassName
@@ -10,27 +13,56 @@ export type WrappedEditorProps = {
 
 export default function WrappedEditor({
     className,
+    readOnly,
     ...props
 }: WrappedEditorProps): React.ReactElement | null {
+    const [shouldExpand, setShouldExpand] = useState<boolean>(false)
+    const ref = useRef<Editor>()
+    useSubscribe(
+        () =>
+            fromEvent(window, 'scroll').pipe(
+                throttleTime(100, undefined, { trailing: true, leading: true }),
+            ),
+        () => {
+            const { scrollTop, clientHeight: viewPortHeight } =
+                document.documentElement
+            let { clientHeight: eHeight } = ref.current?.element ?? {}
+            const eY = ref.current?.element?.getBoundingClientRect().y ?? 0
+            const eBottom =
+                ref.current?.element?.getBoundingClientRect().bottom ?? 0
+            eHeight = eHeight ?? 0
+            const threshold = viewPortHeight / 3
+            setShouldExpand(
+                (readOnly ?? false) &&
+                    eHeight - 2 * threshold > 2 * viewPortHeight && // is worth doing the transition
+                    Math.abs(eY) > threshold && // lower than the top threshold
+                    eBottom > viewPortHeight + threshold && // higher than the bottom threshold
+                    scrollTop > 0, // obvious but it fixes a bug with eY being reported wrong
+            )
+        },
+    )
     return (
         <Editor
             dark
             className={cn(
-                'px-7',
-                'py-5',
                 'h-full',
                 'w-full',
                 'flex-grow',
-                'bg-indigo-800',
-                'bg-opacity-10',
                 'rounded-2xl',
-                'border',
-                'border-primary-dark',
                 'revert-tailwind-preflight',
-                'shadow-strong',
+                'transition-all duration-1000',
+                'border-primary-dark',
+                'pl-4 pr-3 md:px-7 py-5 ',
+                'border',
+                styles.shouldExpand,
+                shouldExpand
+                    ? cn('bg-page-bg shadow-none', styles.expanded)
+                    : 'shadow-strong bg-opacity-10 bg-indigo-800',
                 styles.container,
                 className,
             )}
+            readOnly={readOnly ?? false}
+            ref={_ref => (ref.current = _ref ?? undefined)}
             {...props}
         />
     )
