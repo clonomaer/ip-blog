@@ -7,8 +7,10 @@ import {
     asyncScheduler,
     EMPTY,
     filter,
+    map,
     mergeMap,
     of,
+    scan,
     shareReplay,
     tap,
     timer,
@@ -18,26 +20,28 @@ import { noSentinelOrUndefined } from 'utils/no-sentinel-or-undefined'
 
 export const Web3ProviderId$ = localCache
     .observe<string | undefined>(config.Web3ProviderIdCacheKey)
-    .pipe(filter(noSentinelOrUndefined), filter(isWeb3ProviderId))
-
-const validProvider: { last: Web3ProviderId | undefined } = {
-    last: undefined,
-}
-
-const handleWeb3ProviderIdChangeSubscription = Web3ProviderId$.subscribe({
-    next: id => {
-        if (validProvider.last && id && id !== validProvider.last) {
-            __$.subscribe(__ => {
-                flashToast$.next(__.web3Provider.changedWillReload)
-                asyncScheduler.schedule(() => {
-                    window.location.reload()
-                }, config.Delays.errorFlash)
-            })
-            return
-        }
-        if (id) {
-            validProvider.last = id
-            return
-        }
-    },
-})
+    .pipe(
+        map(x => (x && isWeb3ProviderId(x) ? x : undefined)),
+        //HACK: this includes side effects
+        scan(
+            (acc, id) => {
+                if (acc.lastValid && id && id !== acc.lastValid) {
+                    __$.subscribe(__ => {
+                        flashToast$.next(__.web3Provider.changedWillReload)
+                        asyncScheduler.schedule(() => {
+                            window.location.reload()
+                        }, config.Delays.errorFlash)
+                    })
+                    return { ...acc, current: undefined }
+                }
+                if (id) {
+                    return { lastValid: id, current: id }
+                }
+                return { ...acc, current: id }
+            },
+            { lastValid: undefined, current: undefined } as {
+                [key in 'lastValid' | 'current']: Web3ProviderId | undefined
+            },
+        ),
+        map(({ current }) => current),
+    )
