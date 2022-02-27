@@ -6,6 +6,9 @@ export interface WebsiteLocaleData {
     }
     landing: {
         newPost: string
+        findCid: string
+        wrongCid: string
+        Cid: string
     }
     editPost: {
         newPostHeading: string

@@ -8,6 +8,9 @@ const locale: WebsiteLocale = new WebsiteLocale({
     },
     landing: {
         newPost: 'new post',
+        Cid: 'CID',
+        findCid: 'here to take a look at a post?',
+        wrongCid: 'invalid CID',
     },
     editPost: {
         newPostHeading: 'write something...',

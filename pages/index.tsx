@@ -6,21 +6,58 @@ import Button from 'components/Button'
 import { useRouter } from 'next/router'
 import { useObservable } from 'hooks/observable'
 import { ipfs$ } from 'contexts/ipfs'
+import Input from 'components/Input'
+import { useLazyRef } from 'hooks/lazy-ref'
+import { map, pipe, Subject } from 'rxjs'
+import { useCreateControl } from 'hooks/control/create-control'
+import { InputControl } from 'components/InputWrapper'
+import { getSubjectValue } from 'utils/get-subject-value'
+import { isIPFS } from 'ipfs-core'
 
 const Home: NextPage = ({}) => {
     const __ = useLocale()
     const router = useRouter()
     const ipfs = useObservable(ipfs$)
+    const [cidInput$, cidInput] = useCreateControl<InputControl>()
 
     return (
         <div className="flex flex-col justify-center items-center overflow-auto">
-            <div className="flex flex-col w-56">
-            <Button
-                job={() => {
-                    router.push('/new')
-                }}>
-                {__?.landing.newPost}
-            </Button>
+            <div className="flex flex-col items-center space-y-5">
+                <Button
+                    className="w-72"
+                    job={() => {
+                        router.push('/new')
+                    }}>
+                    <i className="uil-file-plus-alt mr-2" />
+                    {__?.landing.newPost}
+                </Button>
+                <div>{__?.landing.findCid}</div>
+                <div className="flex children:flex-grow w-full items-start">
+                    <Input
+                        control={cidInput$}
+                        validator={pipe(
+                            map(x =>
+                                isIPFS.cid(x)
+                                    ? ''
+                                    : __?.landing.wrongCid ?? 'wrong CID',
+                            ),
+                        )}
+                        sanitizer={pipe(map(x => x.replace(/ */g, '')))}
+                        label={__?.landing.Cid ?? ''}
+                        spellCheck={false}
+                    />
+                    <Button
+                        className="mt-0 mr-0 py-0 px-2  h-10"
+                        disabled={
+                            !cidInput.Value?.length ||
+                            !_.isEmpty(cidInput.Error)
+                        }
+                        job={() => {
+                            router.push(`/post?postId=${cidInput.Value ?? ''}`)
+                        }}>
+                        <i className="uil-angle-right-b text-2xl" />
+                    </Button>
+                </div>
             </div>
         </div>
     )
