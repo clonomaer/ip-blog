@@ -37,7 +37,7 @@ export default function ModalWrapper({
                 controlStreamPayload('Display'),
                 filter(noSentinelOrUndefined),
             ),
-        isPortalOpen$,
+        x => isPortalOpen$.next(x),
     )
 
     const ref = useRef<HTMLDivElement>(null)
