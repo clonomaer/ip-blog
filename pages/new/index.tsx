@@ -32,7 +32,6 @@ import _, { merge } from 'lodash'
 import { truthy } from 'helpers/truthy'
 import { controlStreamPayload } from 'operators/control-stream-payload'
 import { useModal } from 'hooks/modal/modal-control'
-import { noSentinelOrUndefined } from 'utils/no-sentinel-or-undefined'
 import { useAcceptExitUnlessLoading } from 'hooks/modal/accept-exit-unless-loading'
 import { ipfsPushText$ } from 'providers/ipfs-push'
 import { useRouter } from 'next/router'
@@ -48,11 +47,7 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
 
     const router = useRouter()
     useSubscribe(
-        () =>
-            modalControl.pipe(
-                controlStreamPayload('Confirm'),
-                filter(noSentinelOrUndefined),
-            ),
+        () => modalControl.pipe(controlStreamPayload('Confirm')),
         () => {
             modalControl.next({ Loading: true })
             editorContent$

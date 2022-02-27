@@ -10,7 +10,6 @@ import { useSubscribe } from 'hooks/subscribe'
 import { combineLatest, filter, map, Subject, tap } from 'rxjs'
 import { controlStreamPayload } from 'operators/control-stream-payload'
 import _ from 'lodash'
-import { noSentinelOrUndefined } from 'utils/no-sentinel-or-undefined'
 
 export type ModalControl = Partial<{
     RequestExit: true
@@ -32,11 +31,7 @@ export default function ModalWrapper({
     const display = useControlStream(control, 'Display')
 
     useSubscribe(
-        () =>
-            control.pipe(
-                controlStreamPayload('Display'),
-                filter(noSentinelOrUndefined),
-            ),
+        () => control.pipe(controlStreamPayload('Display')),
         x => isPortalOpen$.next(x),
     )
 
