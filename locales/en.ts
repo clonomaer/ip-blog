@@ -23,6 +23,7 @@ const locale: WebsiteLocale = new WebsiteLocale({
     },
     viewPost: {
         invalidCidError: 'are you sure you copied the link right?',
+        copyButton: 'CID',
     },
     userInteraction: { confirmation: { cancel: 'cancel', confirm: 'confirm' } },
 })

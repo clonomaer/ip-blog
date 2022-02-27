@@ -20,6 +20,7 @@ export interface WebsiteLocaleData {
     }
     viewPost: {
         invalidCidError: string
+        copyButton: string
     }
     userInteraction: {
         confirmation: {
