@@ -6,7 +6,6 @@
 @import 'tailwindcss/variants.css';
 
 @import './fonts/index.css';
-@import './icons/unicon.css';
 
 html {
     @apply h-screen text-page-text !bg-gradient-to-tl from-page-bg to-[#0e1f2f] via-[hsl(120,40%,5%)] bg-fixed;
