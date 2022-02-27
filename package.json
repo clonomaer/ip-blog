@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.5.0",
+    "@iconscout/unicons": "^4.0.1",
     "@react-spring/parallax": "^9.4.3",
     "babel-plugin-inline-react-svg": "^2.0.1",
     "classnames": "^2.3.1",

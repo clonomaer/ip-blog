@@ -15,6 +15,7 @@ import { isPageLoading$ } from 'observables/is-page-loading'
 import { useHandlePageLoadingFailure } from 'hooks/handle-loading-failure'
 import { useSubscribe } from 'hooks/subscribe'
 import { pageLoadingJobs$ } from 'contexts/loading-jobs'
+import '@iconscout/unicons/css/line.css'
 
 function SafeHydrate({ children }: PropsWithChildren<unknown>) {
     const [isClient, setIsClient] = useState<boolean>(false)
