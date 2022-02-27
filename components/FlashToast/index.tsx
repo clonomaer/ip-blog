@@ -8,7 +8,7 @@ import { useObservable } from 'hooks/observable'
 import { config } from 'configs'
 import _ from 'lodash'
 import ModalWrapper, { ModalControl } from 'components/ModalWrapper'
-import { useModal } from 'hooks/modal/modal-control'
+import { useCreateControl } from 'hooks/control/create-control'
 import { controlStreamPayload } from 'operators/control-stream-payload'
 import { useSubscribe } from 'hooks/subscribe'
 
@@ -19,7 +19,7 @@ export type FlashToastProps = {
 export default function FlashToast({
     className,
 }: FlashToastProps): React.ReactElement | null {
-    const control = useModal<ModalControl>()
+    const [control$] = useCreateControl<ModalControl>()
     const message = useObservable(flashToast$)
 
     useSubscribe(
@@ -39,20 +39,20 @@ export default function FlashToast({
                 ),
                 switchAll(),
             ),
-        control,
+        x => control$.next(x),
     )
 
     useSubscribe(
         () =>
-            control.pipe(
+            control$.pipe(
                 controlStreamPayload('RequestExit'),
                 map(() => ({ Display: false })),
             ),
-        control,
+        control$,
     )
 
     return (
-        <ModalWrapper className={className} control={control}>
+        <ModalWrapper className={className} control={control$}>
             <div className="max-w-full w-96 text-center">
                 {_.isString(message) ? message : message?.message ?? '??!!'}
             </div>

@@ -31,7 +31,7 @@ import WrappedEditor from 'components/WrappedEditor'
 import _, { merge } from 'lodash'
 import { truthy } from 'helpers/truthy'
 import { controlStreamPayload } from 'operators/control-stream-payload'
-import { useModal } from 'hooks/modal/modal-control'
+import { useCreateControl } from 'hooks/control/create-control'
 import { useAcceptExitUnlessLoading } from 'hooks/modal/accept-exit-unless-loading'
 import { ipfsPushText$ } from 'providers/ipfs-push'
 import { useRouter } from 'next/router'
@@ -42,20 +42,20 @@ export type NewPageProps = {}
 const NewPage: NextPage<NewPageProps> = ({}) => {
     const __ = useLocale()
     const editorSavedValue = useObservable(() => editorContent$.pipe(take(1)))
-    const modalControl = useModal<ConfirmationModalControl>()
-    useAcceptExitUnlessLoading(modalControl)
+    const [modalControl$] = useCreateControl<ConfirmationModalControl>()
+    useAcceptExitUnlessLoading(modalControl$)
 
     const router = useRouter()
     useSubscribe(
-        () => modalControl.pipe(controlStreamPayload('Confirm')),
+        () => modalControl$.pipe(controlStreamPayload('Confirm')),
         () => {
-            modalControl.next({ Loading: true })
+            modalControl$.next({ Loading: true })
             editorContent$
                 .pipe(
                     map(x => ipfsPushText$(x)),
                     mergeMap(([cid$]) => cid$),
                     tap(() => {
-                        modalControl.next({ Loading: false, Display: false })
+                        modalControl$.next({ Loading: false, Display: false })
                     }),
                     delay(config.Delays.min),
                     tap(() => {
@@ -80,11 +80,11 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
                     map(f => f()),
                 )
                 .subscribe(x => editorContent$.next(x))
-            modalControl.next({
+            modalControl$.next({
                 Display: true,
             })
         },
-        [modalControl],
+        [modalControl$],
     )
 
     const handleSaveDraft = useMemo(
@@ -120,7 +120,7 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
                 <Button job={handleSaveDraft}>{__?.editPost.draft}</Button>
                 <Button job={handlePublish}>{__?.editPost.publish}</Button>
             </div>
-            <ConfirmationModal control={modalControl}>
+            <ConfirmationModal control={modalControl$}>
                 <div className="max-w-xs">
                     {__?.editPost.publishConfirmationMessage}
                 </div>
