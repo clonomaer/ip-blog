@@ -5,7 +5,7 @@ import Portal from 'components/Portal'
 import { useControlStream } from 'hooks/control-stream'
 import Fade from 'components/Fade'
 import { canHoverMediaQuery, observeMediaQuery } from 'hooks/responsive'
-import { isPortalOpen } from 'contexts/should-blur-behind-portal'
+import { isPortalOpen$ } from 'contexts/is-portal-open'
 import { useSubscribe } from 'hooks/subscribe'
 import { combineLatest, filter, map, Subject, tap } from 'rxjs'
 import { controlStreamPayload } from 'operators/control-stream-payload'
@@ -37,7 +37,7 @@ export default function ModalWrapper({
                 controlStreamPayload('Display'),
                 filter(noSentinelOrUndefined),
             ),
-        isPortalOpen,
+        isPortalOpen$,
     )
 
     const ref = useRef<HTMLDivElement>(null)

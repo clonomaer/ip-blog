@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react'
 import cn from 'classnames'
 import { ClassName } from 'types'
-import { isPortalOpen } from 'contexts/should-blur-behind-portal'
+import { isPortalOpen$ } from 'contexts/is-portal-open'
 import { useObservable } from 'hooks/observable'
 import { truthy } from 'helpers/truthy'
 import { animated, useSpring } from 'react-spring'
@@ -18,7 +18,7 @@ export default function BlurOnPortalOpen({
 }: BlurOnPortalOpenProps): React.ReactElement | null {
     const shouldBlur = useObservable(
         combineLatest([
-            isPortalOpen,
+            isPortalOpen$,
             observeMediaQuery(canHoverMediaQuery),
         ]).pipe(map(([display, canHover]) => display && canHover)),
     )
