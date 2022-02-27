@@ -108,7 +108,7 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
     )
 
     return (
-        <div className="flex flex-col flex-grow h-full w-screen justify-center items-center p-3 space-y-8 py-8">
+        <div className="flex flex-col flex-grow h-full justify-center items-center p-3 space-y-8 py-8">
             <h2 className="text-xl">{__?.editPost.newPostHeading}</h2>
             <div className="flex flex-grow max-w-5xl w-full">
                 {__ && ( // placeholder fix
