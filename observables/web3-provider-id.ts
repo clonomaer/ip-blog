@@ -18,11 +18,7 @@ import { noSentinelOrUndefined } from 'utils/no-sentinel-or-undefined'
 
 export const Web3ProviderId$ = localCache
     .observe<string | undefined>(config.Web3ProviderIdCacheKey)
-    .pipe(
-        filter(noSentinelOrUndefined),
-        filter(isWeb3ProviderId),
-        shareReplay(1),
-    )
+    .pipe(filter(noSentinelOrUndefined), filter(isWeb3ProviderId))
 
 const validProvider: { last: Web3ProviderId | undefined } = {
     last: undefined,

@@ -11,5 +11,4 @@ export const Web3ProviderEx$ = Web3ProviderId$.pipe(
         ;(providerEx as Web3ProviderEx).external = externalProvider
         return providerEx as Web3ProviderEx
     }),
-    shareReplay(1),
 )
