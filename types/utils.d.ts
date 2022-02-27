@@ -21,3 +21,5 @@ export type ValueTypeUnion<T> = keyof T extends infer K
     : never
 
 export type TimeUnit = 's' | 'm' | 'h' | 'd' | 'y'
+
+export type NonUndefinable<T> = T extends undefined ? never : T
