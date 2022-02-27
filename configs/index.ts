@@ -1,4 +1,5 @@
 import themeConfig from '../tailwind.config'
+import { web3Config } from './web3'
 
 export const config = {
     Delays: {
@@ -36,4 +37,5 @@ export const config = {
         CacheKey: 'editor-content-auto-save',
     },
     Web3ProviderIdCacheKey: 'web3-provider-id-cache',
+    ...web3Config,
 }
