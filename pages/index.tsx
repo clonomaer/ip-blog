@@ -45,9 +45,14 @@ const Home: NextPage = ({}) => {
                         sanitizer={pipe(map(x => x.replace(/ */g, '')))}
                         label={__?.landing.Cid ?? ''}
                         spellCheck={false}
+                        className={{
+                            outer: 'w-full',
+                            wrapper: 'w-full',
+                            target: 'w-full',
+                        }}
                     />
                     <Button
-                        className="mt-0 mr-0 py-0 px-2  h-10"
+                        className="!mt-0 !mr-0 !py-0 !px-2  h-10"
                         disabled={
                             !cidInput.Value?.length ||
                             !_.isEmpty(cidInput.Error)
