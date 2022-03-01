@@ -97,7 +97,14 @@ export function useObservable<T>(
 
     useEffect(() => {
         const subscription = unLazy(observable)?.subscribe({
-            next: setState,
+            next: x => {
+                if (_.isObjectLike(x)) {
+                    try {
+                        return setState(_.cloneDeep(x))
+                    } catch {}
+                }
+                return setState(x)
+            },
             error: e =>
                 ignoreErrors
                     ? undefined
