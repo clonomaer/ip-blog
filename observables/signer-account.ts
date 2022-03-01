@@ -2,8 +2,10 @@ import { config } from 'configs'
 import { injectedConnector } from 'contexts/injected-connector'
 import _ from 'lodash'
 import {
+    asyncScheduler,
     catchError,
     combineLatest,
+    distinctUntilChanged,
     filter,
     from,
     fromEvent,
@@ -12,13 +14,26 @@ import {
     merge,
     mergeMap,
     Observable,
+    observeOn,
     of,
     shareReplay,
+    take,
+    tap,
+    withLatestFrom,
 } from 'rxjs'
 import { ExternalProvider } from 'types'
 import { Web3ProviderEx$ } from './web3-provider-ex'
+import { Web3ProviderId$ } from './web3-provider-id'
 
-export const SignerAccount$: Observable<string | undefined> = merge(
+export const SignerAccount$: Observable<string | undefined | null> = merge(
+    Web3ProviderEx$.pipe(
+        mergeMap(provider => {
+            if (!provider) {
+                return of(null)
+            }
+            return from(provider.listAccounts()).pipe(map(([main]) => main))
+        }),
+    ),
     combineLatest({
         update: fromEvent(injectedConnector, 'Web3ReactUpdate'),
         provider: Web3ProviderEx$,
@@ -49,20 +64,25 @@ export const SignerAccount$: Observable<string | undefined> = merge(
                         ).pipe(
                             map(([main]) => main),
                             catchError((e, observable) =>
-                                merge(of(undefined), observable),
+                                merge(of(null), observable),
                             ),
                         )
                     } catch {
-                        return of(undefined)
+                        return of(null)
                     }
                 }
-                return of(undefined)
+                return of(null)
             }
             if (provider) {
                 return from(provider.listAccounts()).pipe(map(([main]) => main))
             }
-            return of(undefined)
+            return of(null)
         }),
     ),
-    fromEvent(injectedConnector, 'Web3ReactDeactivate').pipe(mapTo(undefined)),
+    fromEvent(injectedConnector, 'Web3ReactDeactivate').pipe(mapTo(null)),
+).pipe(
+    catchError((e, observable) => merge(of(null), observable)),
+    distinctUntilChanged(),
+    tap(x => x === null && Web3ProviderId$.next(undefined)),
+    shareReplay(1),
 )

@@ -10,6 +10,9 @@ import {
 import { ExternalProvider } from '../types'
 import { config } from 'configs'
 import { Web3ProviderEx$ } from 'observables/web3-provider-ex'
+import { Web3ProviderId$ } from 'observables/web3-provider-id'
+import { take } from 'rxjs'
+import { SignerAccount$ } from 'observables/signer-account'
 
 function parseSendReturn(sendReturn: SendReturnResult | SendReturn): any {
     return sendReturn.hasOwnProperty('result') ? sendReturn.result : sendReturn
@@ -40,7 +43,13 @@ export class InjectedConnector extends AbstractConnector {
             next: val => {
                 if (val) {
                     this.externalProvider = val.external
-                    this.activate()
+                    Web3ProviderId$.pipe(take(1)).subscribe(
+                        id =>
+                            id !== 'binanceChain' &&
+                            this.activate().catch(() => {
+                                Web3ProviderId$.next(undefined)
+                            }),
+                    )
                 }
             },
         })
