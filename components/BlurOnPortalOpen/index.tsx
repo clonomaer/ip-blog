@@ -22,7 +22,6 @@ export default function BlurOnPortalOpen({
             map(x => x !== 0),
         ),
     )
-    console.log(shouldBlur)
     const styles = useSpring({
         from: {
             filter: `blur(${truthy(shouldBlur, false) ? 0 : 10}px)`,
