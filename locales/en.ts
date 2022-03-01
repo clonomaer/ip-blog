@@ -32,6 +32,12 @@ const locale: WebsiteLocale = new WebsiteLocale({
     web3Provider: {
         changedWillReload:
             'Web3 (wallet) provider has changed. page will reload to apply changes.',
+        connect: {
+            selectProvider: 'pick your favorite...',
+            connected: 'connected',
+            disconnected: 'disconnected',
+            disconnect: 'disconnect',
+        },
     },
 })
 export default locale

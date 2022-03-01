@@ -33,6 +33,12 @@ export interface WebsiteLocaleData {
     }
     web3Provider: {
         changedWillReload: string
+        connect: {
+            selectProvider: string
+            connected: string
+            disconnected: string
+            disconnect: string
+        }
     }
 }
 export class WebsiteLocale {
