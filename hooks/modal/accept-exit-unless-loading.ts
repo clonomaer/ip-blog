@@ -12,8 +12,8 @@ import {
     withLatestFrom,
 } from 'rxjs'
 
-export function useAcceptExitUnlessLoading(
-    modalControl: Subject<ConfirmationModalControl>,
+export function useAcceptExitUnlessLoading<T>(
+    modalControl: Subject<{ Loading?: T } & ModalControl>,
 ) {
     useSubscribe(
         () => {
