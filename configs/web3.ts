@@ -4,7 +4,7 @@ import { Window$ } from 'observables/window'
 import { map, mergeMap, Observable, of, throwError } from 'rxjs'
 import { ExternalProvider, Web3ProviderId } from 'types'
 
-enum Network {
+export enum Network {
     Mainnet = 'mainnet',
     Testnet = 'testnet',
     Local = 'local',
@@ -17,55 +17,51 @@ function providerNotFoundErrorFactory() {
 const Web3Providers: {
     [providerKey in Web3ProviderId]: {
         id: Web3ProviderId
-        provider$: Observable<ExternalProvider>
+        provider$: Observable<ExternalProvider | undefined>
         supportsAddEthereumChain?: boolean
     }
 } = {
     metamask: {
         id: 'metamask',
         provider$: Window$.pipe(
-            mergeMap(win =>
+            map(win =>
                 !!_.get(win, 'ethereum')?.isMetaMask
-                    ? of(win)
-                    : throwError(providerNotFoundErrorFactory),
+                    ? (_.get(win, 'ethereum') as ExternalProvider)
+                    : undefined,
             ),
-            map(win => _.get(win, 'ethereum')),
         ),
         supportsAddEthereumChain: true,
     },
     binanceChain: {
         id: 'binanceChain',
         provider$: Window$.pipe(
-            mergeMap(win =>
-                !!_.get(window, 'BinanceChain')
-                    ? of(win)
-                    : throwError(providerNotFoundErrorFactory),
+            map(win =>
+                !!_.get(win, 'BinanceChain')
+                    ? (_.get(win, 'BinanceChain') as ExternalProvider)
+                    : undefined,
             ),
-            map(win => _.get(win, 'BinanceChain')),
         ),
         supportsAddEthereumChain: false,
     },
     trust: {
         id: 'trust',
         provider$: Window$.pipe(
-            mergeMap(win =>
-                !!_.get(window, 'ethereum')?.isTrust
-                    ? of(win)
-                    : throwError(providerNotFoundErrorFactory),
+            map(win =>
+                !!_.get(win, 'ethereum')?.isTrust
+                    ? (_.get(win, 'ethereum') as ExternalProvider)
+                    : undefined,
             ),
-            map(win => _.get(win, 'ethereum')),
         ),
         supportsAddEthereumChain: false,
     },
     safePal: {
         id: 'safePal',
         provider$: Window$.pipe(
-            mergeMap(win =>
-                !!_.get(window, 'ethereum')?.isSafePal
-                    ? of(win)
-                    : throwError(providerNotFoundErrorFactory),
+            map(win =>
+                !!_.get(win, 'ethereum')?.isSafePal
+                    ? (_.get(win, 'ethereum') as ExternalProvider)
+                    : undefined,
             ),
-            map(win => _.get(win, 'ethereum')),
         ),
         supportsAddEthereumChain: false,
     },
