@@ -7,7 +7,7 @@ import {
     Send,
     SendOld,
 } from '@web3-react/injected-connector/dist/types'
-import { ExternalProvider, Web3ProviderExObservable } from '../types'
+import { ExternalProvider } from '../types'
 import { config } from 'configs'
 import { Web3ProviderEx$ } from 'observables/web3-provider-ex'
 
@@ -37,7 +37,12 @@ export class InjectedConnector extends AbstractConnector {
     constructor() {
         super({ supportedChainIds: [config.Chains[config.Network].id] })
         Web3ProviderEx$.subscribe({
-            next: val => (this.externalProvider = val?.external),
+            next: val => {
+                if (val) {
+                    this.externalProvider = val.external
+                    this.activate()
+                }
+            },
         })
         this.handleNetworkChanged = this.handleNetworkChanged.bind(this)
         this.handleChainChanged = this.handleChainChanged.bind(this)
@@ -65,7 +70,9 @@ export class InjectedConnector extends AbstractConnector {
         this.emitUpdate({ chainId: networkId, provider: this.externalProvider })
     }
 
-    public async activate(): Promise<ConnectorUpdate> {
+    public async activate(
+        shouldEnable: boolean = true,
+    ): Promise<ConnectorUpdate> {
         if (!this.externalProvider) {
             throw new NoEthereumProviderError()
         }
@@ -89,28 +96,31 @@ export class InjectedConnector extends AbstractConnector {
 
         // try to activate + get account via eth_requestAccounts
         let account
-        try {
-            account = await (this.externalProvider.send as any as Send)(
-                'eth_requestAccounts',
-            ).then(sendReturn => parseSendReturn(sendReturn)[0])
-        } catch (error) {
-            if ((error as any).code === 4001) {
-                throw new UserRejectedRequestError()
-            }
-            warning(
-                false,
-                'eth_requestAccounts was unsuccessful, falling back to enable',
-            )
-        }
-
-        // if unsuccessful, try enable
-        if (!account) {
-            // if enable is successful but doesn't return accounts, fall back to getAccount (not happy i have to do this...)
-            account = await this.externalProvider
-                .enable?.()
-                .then(
-                    sendReturn => sendReturn && parseSendReturn(sendReturn)[0],
+        if (shouldEnable) {
+            try {
+                account = await (this.externalProvider.send as any as Send)(
+                    'eth_requestAccounts',
+                ).then(sendReturn => parseSendReturn(sendReturn)[0])
+            } catch (error) {
+                if ((error as any).code === 4001) {
+                    throw new UserRejectedRequestError()
+                }
+                warning(
+                    false,
+                    'eth_requestAccounts was unsuccessful, falling back to enable',
                 )
+            }
+
+            // if unsuccessful, try enable
+            if (!account) {
+                // if enable is successful but doesn't return accounts, fall back to getAccount (not happy i have to do this...)
+                account = await this.externalProvider
+                    .enable?.()
+                    .then(
+                        sendReturn =>
+                            sendReturn && parseSendReturn(sendReturn)[0],
+                    )
+            }
         }
 
         return {
