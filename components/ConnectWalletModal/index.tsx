@@ -63,7 +63,7 @@ export default function ConnectWalletModal({
                     x
                 </Button>
             </div>
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center mb-5">
                 <Fade
                     visible={!!signer}
                     classNames={{
@@ -104,7 +104,7 @@ export default function ConnectWalletModal({
                     visible={!signer}
                     className="flex place-self-end"
                     classNames={{
-                        wrapper: cn('place-self-end mb-5'),
+                        wrapper: cn('place-self-end'),
                     }}>
                     <Button
                         disabled={!!isLoading}
