@@ -31,9 +31,9 @@ export type InputControl = Partial<{
     Loading: boolean
 }>
 
-type HTMLInputProps = DetailedHTMLProps<
-    InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
+type HTMLInputProps = Pick<
+    DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+    'value' | 'disabled' | 'onChange'
 >
 
 export type InputWrapperProps = {
