@@ -3,7 +3,7 @@ import cn from 'classnames'
 import { ClassName, ControlStream, Not } from 'types'
 import Portal from 'components/Portal'
 import { useControlStream } from 'hooks/control-stream'
-import Fade from 'components/Fade'
+import Fade, { FadeMode } from 'components/Fade'
 import { canHoverMediaQuery, observeMediaQuery } from 'hooks/responsive'
 import { isPortalOpen$ } from 'contexts/is-portal-open'
 import { useSubscribe } from 'hooks/subscribe'
@@ -20,6 +20,7 @@ export type ModalWrapperProps = PropsWithChildren<{
     className?: ClassName
     classNames?: { container?: ClassName }
     control: Subject<ModalControl>
+    mode?: FadeMode | undefined
 }>
 
 export default function ModalWrapper({
@@ -27,6 +28,7 @@ export default function ModalWrapper({
     classNames,
     children,
     control,
+    mode,
 }: ModalWrapperProps): React.ReactElement | null {
     const display = useControlStream(control, 'Display')
 
@@ -48,6 +50,7 @@ export default function ModalWrapper({
     return (
         <Portal>
             <Fade
+                mode={mode}
                 visible={display ?? false}
                 onClick={() => control.next({ RequestExit: true })}
                 tabIndex={0}

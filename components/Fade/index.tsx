@@ -32,7 +32,7 @@ export type FadeProps<
     className?: ClassName
     classNames?: { wrapper?: ClassName }
     visible: boolean
-    mode?: FadeMode
+    mode?: FadeMode | undefined
     skipInitialTransition?: boolean | undefined
     animationOptions?: ExtraAnimationOptions<ExtraAnimationProps>
     animationOptionsTransformer?: (styles: {
