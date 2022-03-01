@@ -50,7 +50,6 @@ export default function ModalWrapper({
     return (
         <Portal>
             <Fade
-                mode={mode}
                 visible={display ?? false}
                 onClick={() => control.next({ RequestExit: true })}
                 tabIndex={0}
@@ -72,7 +71,9 @@ export default function ModalWrapper({
                         'overscroll-none',
                         className,
                     )}>
-                    <div
+                    <Fade
+                        visible={display ?? false}
+                        mode={mode}
                         onClick={e => e.stopPropagation()}
                         className={cn(
                             'flex',
@@ -80,7 +81,7 @@ export default function ModalWrapper({
                             classNames?.container,
                         )}>
                         {children}
-                    </div>
+                    </Fade>
                 </div>
             </Fade>
         </Portal>
