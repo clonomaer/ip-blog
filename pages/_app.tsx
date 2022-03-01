@@ -16,6 +16,7 @@ import { useHandlePageLoadingFailure } from 'hooks/handle-loading-failure'
 import { useSubscribe } from 'hooks/subscribe'
 import { pageLoadingJobs$ } from 'contexts/loading-jobs'
 import '@iconscout/unicons/css/line.css'
+import { useWeb3ProviderConnectionInfo } from 'hooks/web3-provider-connection-info'
 
 function SafeHydrate({ children }: PropsWithChildren<unknown>) {
     const [isClient, setIsClient] = useState<boolean>(false)
@@ -38,6 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     })
     useHandlePageLoadingFailure()
     useRouteLoadingStatus()
+    useWeb3ProviderConnectionInfo()
 
     return (
         <SafeHydrate>
