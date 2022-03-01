@@ -2,7 +2,16 @@ import React, { useEffect, useState } from 'react'
 import cn from 'classnames'
 import { ClassName } from 'types'
 import { useLazyRef } from 'hooks/lazy-ref'
-import { filter, map, merge, of, Subject, switchAll, timer } from 'rxjs'
+import {
+    filter,
+    map,
+    merge,
+    of,
+    Subject,
+    switchAll,
+    timer,
+    withLatestFrom,
+} from 'rxjs'
 import { flashToast$ } from 'contexts/flash-toast'
 import { useObservable } from 'hooks/observable'
 import { config } from 'configs'
@@ -34,7 +43,13 @@ export default function FlashToast({
                                     ? config.Delays.confirm
                                     : config.Delays.errorFlash
                                 : msg.timeout,
-                        ).pipe(map(() => ({ Display: false }))),
+                        ).pipe(
+                            withLatestFrom(
+                                control$.pipe(controlStreamPayload('Display')),
+                            ),
+                            filter(([_, x]) => x),
+                            map(() => ({ Display: false })),
+                        ),
                     ),
                 ),
                 switchAll(),
