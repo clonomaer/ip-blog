@@ -7,19 +7,15 @@ export type ExternalProvider = ethers.providers.ExternalProvider &
         enable?: () => Promise<unknown>
     }
 
+export type BinanceChainWalletExternalProvider = ExternalProvider & {
+    switchNetwork: (networkId: string) => Promise<void>
+}
+
 export type Web3ProviderEx = ethers.providers.Web3Provider & {
     external: ExternalProvider
 }
 
 export type Web3ProviderId = 'metamask' | 'binanceChain' | 'trust' | 'safePal'
-
-export type SignerAccountObservable = ReplaySubject<string | undefined>
-
-export type Web3ProviderExObservable = ReplaySubject<Web3ProviderEx | undefined>
-
-export type Web3ProviderIdObservable = ReplaySubject<Web3ProviderId | undefined>
-
-export type WalletConnectStatusObservable = Observable<true | Error>
 
 export type Web3RegisteredListener = {
     provider: ExternalProvider
