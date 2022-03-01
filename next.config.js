@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const config = {
     experimental: {},
     future: {},
     reactStrictMode: true,
@@ -24,3 +24,5 @@ module.exports = {
         return config
     },
 }
+const withImages = require('next-images')
+module.exports = withImages(config)
