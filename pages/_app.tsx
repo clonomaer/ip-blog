@@ -24,7 +24,7 @@ function SafeHydrate({ children }: PropsWithChildren<unknown>) {
         setIsClient(true)
     })
     return (
-        <div suppressHydrationWarning>
+        <div suppressHydrationWarning className="overflow-hidden">
             {typeof window === 'undefined' || !isClient ? null : children}
         </div>
     )
