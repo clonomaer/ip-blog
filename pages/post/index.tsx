@@ -89,11 +89,13 @@ const PostViewPage: NextPage<PostViewPageProps> = ({}) => {
                             {__?.viewPost.copyButton}
                         </Button>
                     </div>
-                    <WrappedEditor
-                        className="border-0"
-                        readOnly
-                        value={content ?? ''}
-                    />
+                    {content && (
+                        <WrappedEditor
+                            className="border-0"
+                            readOnly
+                            value={content ?? ''}
+                        />
+                    )}
                 </div>
             )}
         </div>
