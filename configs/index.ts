@@ -37,5 +37,6 @@ export const config = {
         CacheKey: 'editor-content-auto-save',
     },
     Web3ProviderIdCacheKey: 'web3-provider-id-cache',
+    RecentPostsLocalCacheKey: 'recent-ipblog-posts',
     ...web3Config,
 }

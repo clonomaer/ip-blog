@@ -36,6 +36,8 @@ import { useAcceptExitUnlessLoading } from 'hooks/modal/accept-exit-unless-loadi
 import { ipfsPushText$ } from 'providers/ipfs-push'
 import { useRouter } from 'next/router'
 import { __$ } from 'locales'
+import { recentPosts$ } from 'contexts/recent-posts'
+import { getSubjectValue } from 'utils/get-subject-value'
 
 export type NewPageProps = {}
 
@@ -68,6 +70,11 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
                     delay(config.Delays.confirm),
                 )
                 .subscribe(cid => {
+                    recentPosts$.next([
+                        ...(getSubjectValue(recentPosts$) ?? []),
+                        cid.toString(),
+                    ])
+
                     router.push(`/post?postId=${cid.toString?.()}`)
                 })
         },
