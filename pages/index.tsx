@@ -13,21 +13,17 @@ import { useCreateControl } from 'hooks/control/create-control'
 import { InputControl } from 'components/InputWrapper'
 import { getSubjectValue } from 'utils/get-subject-value'
 import { isIPFS } from 'ipfs-core'
+import { useRoutePush } from 'hooks/route-push'
 
 const Home: NextPage = ({}) => {
     const __ = useLocale()
-    const router = useRouter()
-    const ipfs = useObservable(ipfs$)
+    const push = useRoutePush()
     const [cidInput$, cidInput] = useCreateControl<InputControl>()
 
     return (
         <div className="flex flex-col justify-center items-center overflow-auto">
             <div className="flex flex-col items-center space-y-5">
-                <Button
-                    className="w-72"
-                    job={() => {
-                        router.push('/new')
-                    }}>
+                <Button className="w-72 mb-20" job={push('new')}>
                     <i className="uil-file-plus-alt mr-2" />
                     {__?.landing.newPost}
                 </Button>
@@ -57,9 +53,7 @@ const Home: NextPage = ({}) => {
                             !cidInput.Value?.length ||
                             !_.isEmpty(cidInput.Error)
                         }
-                        job={() => {
-                            router.push(`/post?postId=${cidInput.Value ?? ''}`)
-                        }}>
+                        job={push(`/post?postId=${cidInput.Value ?? ''}`)}>
                         <i className="uil-angle-right-b text-2xl" />
                     </Button>
                 </div>
