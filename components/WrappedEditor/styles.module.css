@@ -24,6 +24,10 @@
         :global(.code-block):global(.code-block) {
             pre {
                 @apply bg-[#0e262f] bg-opacity-30 rounded-lg;
+                &,
+                * {
+                    font-size: theme('fontSize.xs');
+                }
             }
             button {
                 @apply text-page-text bg-primary-darker border-2 border-primary-dark shadow-none right-0 top-0 border-solid rounded-lg px-2;
