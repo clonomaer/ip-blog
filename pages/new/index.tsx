@@ -103,20 +103,20 @@ const NewPage: NextPage<NewPageProps> = ({}) => {
     )
 
     return (
-        <div className="flex flex-col flex-grow h-full justify-center items-center p-3 space-y-8 py-8">
+        <div className="flex flex-col flex-grow min-h-main-content justify-center items-center space-y-8 py-8">
             <h2 className="text-xl">{__?.editPost.newPostHeading}</h2>
             <div className="flex flex-grow max-w-5xl w-full">
                 {__ && ( // placeholder fix
                     <WrappedEditor
                         dark
-                        className="px-7 py-3 bg-[#181A1B] border-2 border-primary-darker h-full w-full flex-grow"
+                        className="px-7 py-3 bg-[#181A1B] border-2 border-primary-darker w-full flex-grow"
                         placeholder={__.editPost.placeholder}
                         onChange={f => editorContentChanged$.next(f)}
                         value={truthy(editorSavedValue, '')}
                     />
                 )}
             </div>
-            <div>
+            <div className="justify-self-end">
                 <Button job={handleSaveDraft}>{__?.editPost.draft}</Button>
                 <Button job={handlePublish}>{__?.editPost.publish}</Button>
             </div>
