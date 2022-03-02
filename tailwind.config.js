@@ -18,6 +18,12 @@ const config = {
             boxShadow: {
                 strong: '0 25px 50px -12px rgb(0 0 0 / 1)',
             },
+            height: {
+                'top-bar': 'theme(spacing.24)',
+            },
+            minHeight: {
+                'main-content': `calc(var(--h-screen) - ${defaultConfig.theme.spacing[24]})`,
+            },
         },
         /**@type {{[x in import('./types').Screens]: string}} */
         screens: {
