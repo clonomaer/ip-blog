@@ -3,6 +3,8 @@ import cn from 'classnames'
 import Fade from 'components/Fade'
 import { useObservable } from 'hooks/observable'
 import { isPageLoading$ } from 'observables/is-page-loading'
+import MainTopBar from 'components/MainTopBar'
+import BlurOnPortalOpen from 'components/BlurOnPortalOpen'
 
 export default function MainLayout({
     children,
@@ -24,18 +26,31 @@ export default function MainLayout({
             id="MainLayout"
             className={cn(
                 'scrollbar-hide',
-                'px-[max(calc((100vw-75rem)/2),1rem)]',
                 'min-h-[var(--h-screen)]',
                 isLoading && 'h-[var(--h-screen)]',
                 'flex',
-                'justify-center',
-                'items-center',
                 'overflow-hidden',
-                'children:max-w-full',
-                'children:max-h-full',
+                'justify-center',
+                'w-screen px-[max(calc((100vw-theme(screens.2xl))/2),1rem)]',
             )}
-            classNames={{ wrapper: 'flex-grow' }}>
-            {children}
+            classNames={{
+                wrapper: 'flex-grow h-full w-full children:max-w-full',
+            }}>
+            <BlurOnPortalOpen>
+                <MainTopBar className="h-top-bar" />
+                <div
+                    className={cn(
+                        'h-full',
+                        'flex',
+                        'justify-center',
+                        'items-center',
+                        'children:max-w-full',
+                        'children:max-h-full',
+                        'min-h-main-content',
+                    )}>
+                    {children}
+                </div>
+            </BlurOnPortalOpen>
         </Fade>
     )
 }

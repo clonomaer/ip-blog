@@ -55,11 +55,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                 visible={isLoading}
                 className={'!z-50 bg-page-bg'}
             />
-            <BlurOnPortalOpen>
                 <MainLayout>
                     <Component {...pageProps} />
                 </MainLayout>
-            </BlurOnPortalOpen>
         </SafeHydrate>
     )
 }
