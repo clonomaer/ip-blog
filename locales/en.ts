@@ -37,6 +37,9 @@ const locale: WebsiteLocale = new WebsiteLocale({
             connected: 'connected',
             disconnected: 'disconnected',
             disconnect: 'disconnect',
+            connectButton: {
+                notConnected: 'web³ not connected',
+            },
         },
     },
 })

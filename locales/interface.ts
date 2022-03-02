@@ -38,6 +38,9 @@ export interface WebsiteLocaleData {
             connected: string
             disconnected: string
             disconnect: string
+            connectButton: {
+                notConnected: string
+            }
         }
     }
 }
