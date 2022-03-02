@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     })
     useHandlePageLoadingFailure()
     useRouteLoadingStatus()
-    useWeb3ProviderConnectionInfo()
+    // useWeb3ProviderConnectionInfo()
 
     return (
         <SafeHydrate>
@@ -55,9 +55,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                 visible={isLoading}
                 className={'!z-50 bg-page-bg'}
             />
-                <MainLayout>
-                    <Component {...pageProps} />
-                </MainLayout>
+            <MainLayout>
+                <Component {...pageProps} />
+            </MainLayout>
         </SafeHydrate>
     )
 }
