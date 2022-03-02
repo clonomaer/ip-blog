@@ -1,0 +1,6 @@
+.title {
+    text-shadow: 0 0 5px black, 0 0 10px theme('colors.primary-dark'),
+        0 0 12px black, 0 0 18px theme('colors.primary-dark'),
+        0 0 20px theme('colors.primary-dark'),
+        0 0 25px theme('colors.primary-dark');
+}
