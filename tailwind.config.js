@@ -7,7 +7,7 @@ const defaultConfig = require('tailwindcss/stubs/defaultConfig.stub')
 const config = {
     mode: 'jit',
     important: false,
-    purge: [
+    content: [
         './pages/**/*.{js,jsx,ts,tsx,scss,sass,css}',
         './components/**/*.{js,jsx,ts,tsx,scss,sass,css}',
         './styles/**/*.{scss,sass,css}',
