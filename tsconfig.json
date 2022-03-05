@@ -30,7 +30,7 @@
         "noImplicitThis": true,
         "noUncheckedIndexedAccess": true,
         "noUnusedLocals": false,
-        "noUnusedParameters": true,
+        // "noUnusedParameters": true,
         "exactOptionalPropertyTypes": true
     },
     "include": ["next-env.d.ts", "./**/*.ts", "./**/*.tsx"],
