@@ -71,7 +71,10 @@ const Web3Providers: {
 const Chains: {
     [key in Network]: {
         id: number
-        config: EthersNetwork & {
+        network: EthersNetwork
+        config: {
+            chainName: string
+            chainId: string
             nativeCurrency: {
                 name: string
                 symbol: string
@@ -84,10 +87,13 @@ const Chains: {
 } = {
     [Network.Mainnet]: {
         id: 56,
-        config: {
-            // chainId: `0x${(56).toString(16)}`,
+        network: {
             chainId: 56,
-            name: 'Binance Smart Chain Mainnet',
+            name: 'bscmain',
+        },
+        config: {
+            chainId: `0x${(56).toString(16)}`,
+            chainName: 'Binance Smart Chain Mainnet',
             nativeCurrency: {
                 name: 'BNB',
                 symbol: 'bnb',
@@ -103,10 +109,13 @@ const Chains: {
     },
     [Network.Testnet]: {
         id: 97,
-        config: {
-            // chainId: `0x${(97).toString(16)}`,
+        network: {
             chainId: 97,
-            name: 'Smart Chain Testnet',
+            name: 'bsctest',
+        },
+        config: {
+            chainId: `0x${(97).toString(16)}`,
+            chainName: 'Smart Chain Testnet',
             nativeCurrency: {
                 name: 'BNB',
                 symbol: 'bnb',
@@ -118,10 +127,13 @@ const Chains: {
     },
     [Network.Local]: {
         id: 31337,
-        config: {
-            // chainId: `0x${(31337).toString(16)}`,
+        network: {
             chainId: 31337,
-            name: 'Local',
+            name: 'local',
+        },
+        config: {
+            chainId: `0x${(31337).toString(16)}`,
+            chainName: 'Local',
             nativeCurrency: {
                 name: 'BNB',
                 symbol: 'bnb',
