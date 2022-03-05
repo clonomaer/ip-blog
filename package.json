@@ -19,6 +19,7 @@
     "@web3-react/injected-connector": "^6.0.7",
     "classnames": "^2.3.1",
     "ethers": "^5.5.4",
+    "ipblog-index": "../ipblog-index",
     "ipfs-core": "^0.14.1",
     "is-ipfs": "^6.0.2",
     "lodash": "^4.17.21",
