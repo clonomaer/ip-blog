@@ -10,11 +10,12 @@ import { useAcceptExitUnlessLoading } from 'hooks/modal/accept-exit-unless-loadi
 import { config } from 'configs'
 import _ from 'lodash'
 import ConnectWalletModalSingleItem from './single-item'
-import { SignerAccount$ } from 'observables/signer-account'
+import { SignerAddress$ } from 'observables/signer-account'
 import { useObservable } from 'hooks/observable'
 import { Web3ProviderId$ } from 'observables/web3-provider-id'
 import { waitFor } from 'helpers/wait-for'
 import Fade from 'components/Fade'
+import { WalletConnectStatus$ } from 'observables/wallet-connect-status'
 
 export type ConnectWalletModalControl = Partial<{
     Loading: string | null
@@ -33,7 +34,8 @@ export default function ConnectWalletModal({
     const __ = useLocale()
     const isLoading = useControlStream(control, 'Loading')
     useAcceptExitUnlessLoading(control)
-    const signer = useObservable(SignerAccount$)
+    const address = useObservable(SignerAddress$)
+    const isConnected = useObservable(WalletConnectStatus$)
     return (
         <ModalWrapper
             className={className}
@@ -65,11 +67,11 @@ export default function ConnectWalletModal({
             </div>
             <div className="flex flex-col justify-center items-center mb-5">
                 <Fade
-                    visible={!!signer}
+                    visible={!!isConnected}
                     classNames={{
                         wrapper: 'flex flex-col justify-center items-center',
                     }}>
-                    <div className="mx-4 mb-4 mt-2">{signer}</div>
+                    <div className="mx-4 mb-4 mt-2">{address}</div>
                     <Button
                         job={async () => {
                             control.next({ RequestExit: true })
@@ -79,11 +81,11 @@ export default function ConnectWalletModal({
                         {__?.web3Provider.connect.disconnect}
                     </Button>
                 </Fade>
-                <Fade visible={!signer} className="px-3">
+                <Fade visible={!isConnected} className="px-3">
                     {__?.web3Provider.connect.selectProvider}
                 </Fade>
                 <Fade
-                    visible={!signer}
+                    visible={!isConnected}
                     className=""
                     classNames={{
                         wrapper: 'flex flex-wrap justify-center items-center',
@@ -101,7 +103,7 @@ export default function ConnectWalletModal({
                     ))}
                 </Fade>
                 <Fade
-                    visible={!signer}
+                    visible={!isConnected}
                     className="flex place-self-end"
                     classNames={{
                         wrapper: cn('place-self-end'),

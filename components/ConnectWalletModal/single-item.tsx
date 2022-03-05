@@ -9,7 +9,7 @@ import { ConnectWalletModalControl } from '.'
 import { filter, firstValueFrom, skip, Subject, take } from 'rxjs'
 import { useControlStream } from 'hooks/control-stream'
 import { localCache } from 'contexts/local-cache'
-import { SignerAccount$ } from 'observables/signer-account'
+import { SignerAddress$ } from 'observables/signer-account'
 import { noSentinelOrUndefined } from 'utils/no-sentinel-or-undefined'
 import { waitFor } from 'helpers/wait-for'
 
@@ -40,7 +40,7 @@ export default function ConnectWalletModalSingleItem({
                 await waitFor(100)
                 subject.next(id)
                 await firstValueFrom(
-                    SignerAccount$.pipe(
+                    SignerAddress$.pipe(
                         skip(1),
                         filter(noSentinelOrUndefined),
                         take(1),

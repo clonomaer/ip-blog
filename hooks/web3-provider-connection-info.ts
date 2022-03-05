@@ -1,11 +1,11 @@
 import { flashToast$ } from 'contexts/flash-toast'
 import { __$ } from 'locales'
-import { SignerAccount$ } from 'observables/signer-account'
+import { SignerAddress$ } from 'observables/signer-account'
 import { useSubscribe } from './subscribe'
 
 export function useWeb3ProviderConnectionInfo() {
     useSubscribe(
-        () => SignerAccount$,
+        () => SignerAddress$,
         x =>
             x !== undefined &&
             __$.subscribe(__ => {
