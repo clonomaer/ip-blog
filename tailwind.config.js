@@ -24,6 +24,26 @@ const config = {
             minHeight: {
                 'main-content': `calc(var(--h-screen) - ${defaultConfig.theme.spacing[24]})`,
             },
+            colors: {
+                primary: '#4ea832',
+                'primary-dark': '#1f4314',
+                'primary-darker': '#0f1f09',
+                'page-bg': '#090c09',
+                'page-text': '#ccc',
+                'page-text-hover': '#fff',
+            },
+            fontFamily: {
+                sans: [
+                    'source code pro, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+                ],
+                serif: ['Yellowtail'],
+            },
+            fontSize: {
+                '2xs': '0.5625rem',
+            },
+            spacing: {
+                13: '3.125rem',
+            },
         },
         /**@type {{[x in import('./types').Screens]: string}} */
         screens: {
@@ -32,32 +52,6 @@ const config = {
             lg: '1024px',
             xl: '1280px',
             '2xl': '1536px',
-        },
-        fontFamily: {
-            ...defaultConfig.theme.fontFamily,
-            sans: [
-                'source code pro, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
-                ...defaultConfig.theme.fontFamily.sans,
-            ],
-            serif: ['Yellowtail', ...defaultConfig.theme.fontFamily.serif],
-        },
-        fontSize: {
-            ...defaultConfig.theme.fontSize,
-            //@ts-expect-error custom
-            '2xs': '0.5625rem',
-        },
-        colors: {
-            ...defaultConfig.theme.colors,
-            primary: '#4ea832',
-            'primary-dark': '#1f4314',
-            'primary-darker': '#0f1f09',
-            'page-bg': '#090c09',
-            'page-text': '#ccc',
-            'page-text-hover': '#fff',
-        },
-        spacing: {
-            ...defaultConfig.theme.spacing,
-            13: '3.125rem',
         },
     },
     variants: {
@@ -96,7 +90,6 @@ const config = {
                         borderStyle: 'revert',
                     },
                     '& button:focus': {
-                        outline: 'revert',
                         outline: 'revert',
                     },
                 },
