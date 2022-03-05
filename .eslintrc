@@ -12,6 +12,7 @@
         "import/prefer-default-export": "off",
         "@next/next/no-img-element": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
-        "@typescript-eslint/no-explicit-any": "on"
-    }
+        "@typescript-eslint/no-explicit-any": "error"
+    },
+    "ignorePatterns": ["next/*", "build/*", "out/*", "node_modules/*"]
 }
