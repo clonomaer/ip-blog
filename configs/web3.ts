@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { Window$ } from 'observables/window'
 import { map, mergeMap, Observable, of, throwError } from 'rxjs'
 import { ExternalProvider, Web3ProviderId } from 'types'
+import { Network as EthersNetwork } from '@ethersproject/networks'
 
 export enum Network {
     Mainnet = 'mainnet',
@@ -70,9 +71,7 @@ const Web3Providers: {
 const Chains: {
     [key in Network]: {
         id: number
-        config: {
-            chainId: string
-            chainName: string
+        config: EthersNetwork & {
             nativeCurrency: {
                 name: string
                 symbol: string
@@ -86,8 +85,9 @@ const Chains: {
     [Network.Mainnet]: {
         id: 56,
         config: {
-            chainId: `0x${(56).toString(16)}`,
-            chainName: 'Binance Smart Chain Mainnet',
+            // chainId: `0x${(56).toString(16)}`,
+            chainId: 56,
+            name: 'Binance Smart Chain Mainnet',
             nativeCurrency: {
                 name: 'BNB',
                 symbol: 'bnb',
@@ -104,8 +104,9 @@ const Chains: {
     [Network.Testnet]: {
         id: 97,
         config: {
-            chainId: `0x${(97).toString(16)}`,
-            chainName: 'Smart Chain Testnet',
+            // chainId: `0x${(97).toString(16)}`,
+            chainId: 97,
+            name: 'Smart Chain Testnet',
             nativeCurrency: {
                 name: 'BNB',
                 symbol: 'bnb',
@@ -118,8 +119,9 @@ const Chains: {
     [Network.Local]: {
         id: 31337,
         config: {
-            chainId: `0x${(31337).toString(16)}`,
-            chainName: 'Local',
+            // chainId: `0x${(31337).toString(16)}`,
+            chainId: 31337,
+            name: 'Local',
             nativeCurrency: {
                 name: 'BNB',
                 symbol: 'bnb',
@@ -133,5 +135,5 @@ const Chains: {
 export const web3Config = {
     Web3Providers,
     Chains,
-    Network: Network.Mainnet,
+    Network: Network.Testnet,
 }
