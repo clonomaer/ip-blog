@@ -1,5 +1,6 @@
 import { config } from 'configs'
 import { create } from 'ipfs-core'
+import { Window$ } from 'observables/window'
 import {
     from,
     mergeMap,
@@ -7,11 +8,17 @@ import {
     retryWhen,
     shareReplay,
     throwError,
+    throwIfEmpty,
     timer,
 } from 'rxjs'
 
-const ipfsNode$ = from(create()).pipe(shareReplay(1))
-ipfsNode$.subscribe({ complete: () => console.log('ipfs node created') })
+const ipfsNode$ = Window$.pipe(
+    mergeMap(() => create()),
+    shareReplay(1),
+)
+ipfsNode$
+    .pipe(throwIfEmpty())
+    .subscribe({ complete: () => console.log('ipfs node created') })
 
 export const ipfs$ = ipfsNode$.pipe(
     mergeMap(ipfs =>
@@ -21,4 +28,6 @@ export const ipfs$ = ipfsNode$.pipe(
     shareReplay(1),
 )
 
-ipfs$.subscribe({ complete: () => console.log('ipfs node online') })
+ipfs$
+    .pipe(throwIfEmpty())
+    .subscribe({ complete: () => console.log('ipfs node online') })
