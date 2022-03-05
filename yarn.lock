@@ -415,6 +415,13 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@ethers-ancillary/bsc@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ethers-ancillary/bsc/-/bsc-0.0.3.tgz#91ad0b80fe9cbf2c3634b1c0df7f0df60c084c2c"
+  integrity sha512-dBxaXap10Lpu9R6JOpLQO1GgueA7Lyq6tU2vrWfpV9FhUSSAbLAHAnUFXld+jBhqkl7TBfgtfsavvy2wp5jj0A==
+  dependencies:
+    ethers "^5.4.1"
+
 "@ethersproject/abi@5.5.0", "@ethersproject/abi@^5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/abi/-/abi-5.5.0.tgz#fb52820e22e50b854ff15ce1647cc508d6660613"
@@ -3395,7 +3402,7 @@ esutils@^2.0.2:
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
-ethers@^5.5.4:
+ethers@^5.4.1, ethers@^5.5.4:
   version "5.5.4"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.5.4.tgz#e1155b73376a2f5da448e4a33351b57a885f4352"
   integrity sha512-N9IAXsF8iKhgHIC6pquzRgPBJEzc9auw3JoRkaKe+y4Wl/LFBtDDunNe7YmdomontECAcC5APaAgWZBiu1kirw==

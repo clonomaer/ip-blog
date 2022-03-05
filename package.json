@@ -13,6 +13,7 @@
     "test:server:single": "npx ts-mocha -r tsconfig-paths/register,./helpers/mocha-init.ts -p ./tsconfig.test.json --timeout 20000"
   },
   "dependencies": {
+    "@ethers-ancillary/bsc": "^0.0.3",
     "@ethersproject/bignumber": "^5.5.0",
     "@iconscout/unicons": "^4.0.1",
     "@react-spring/parallax": "^9.4.3",
