@@ -4,6 +4,7 @@ import { Window$ } from 'observables/window'
 import { map, mergeMap, Observable, of, throwError } from 'rxjs'
 import { ExternalProvider, Web3ProviderId } from 'types'
 import { Network as EthersNetwork } from '@ethersproject/networks'
+import { providers } from 'ethers'
 
 export enum Network {
     Mainnet = 'mainnet',
@@ -18,7 +19,7 @@ function providerNotFoundErrorFactory() {
 const Web3Providers: {
     [providerKey in Web3ProviderId]: {
         id: Web3ProviderId
-        provider$: Observable<ExternalProvider | undefined>
+        provider$: Observable<providers.ExternalProvider | undefined>
         supportsAddEthereumChain?: boolean
     }
 } = {
@@ -27,7 +28,7 @@ const Web3Providers: {
         provider$: Window$.pipe(
             map(win =>
                 !!_.get(win, 'ethereum')?.isMetaMask
-                    ? (_.get(win, 'ethereum') as ExternalProvider)
+                    ? (_.get(win, 'ethereum') as providers.ExternalProvider)
                     : undefined,
             ),
         ),
@@ -38,7 +39,7 @@ const Web3Providers: {
         provider$: Window$.pipe(
             map(win =>
                 !!_.get(win, 'BinanceChain')
-                    ? (_.get(win, 'BinanceChain') as ExternalProvider)
+                    ? (_.get(win, 'BinanceChain') as providers.ExternalProvider)
                     : undefined,
             ),
         ),
@@ -49,7 +50,7 @@ const Web3Providers: {
         provider$: Window$.pipe(
             map(win =>
                 !!_.get(win, 'ethereum')?.isTrust
-                    ? (_.get(win, 'ethereum') as ExternalProvider)
+                    ? (_.get(win, 'ethereum') as providers.ExternalProvider)
                     : undefined,
             ),
         ),
@@ -60,7 +61,7 @@ const Web3Providers: {
         provider$: Window$.pipe(
             map(win =>
                 !!_.get(win, 'ethereum')?.isSafePal
-                    ? (_.get(win, 'ethereum') as ExternalProvider)
+                    ? (_.get(win, 'ethereum') as providers.ExternalProvider)
                     : undefined,
             ),
         ),
