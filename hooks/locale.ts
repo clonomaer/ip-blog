@@ -5,7 +5,7 @@ import { useOnce } from './once'
 
 export function useBuildLocale(): void {
     useOnce(() => {
-        locale$.next('shit')
+        locale$.next('en')
     })
     useOnce(() => {
         pageLoadingJobs$.next(__$.pipe(take(1)))
