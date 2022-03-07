@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { ClassName } from 'types'
 import _ from 'lodash'
 import { useRouter } from 'next/dist/client/router'
-import { catchError, EMPTY, map, mergeMap, of, reduce, scan } from 'rxjs'
+import { catchError, EMPTY, map, mergeMap, of, reduce, scan, take } from 'rxjs'
 import { InvalidCIDError, ipfsTextFile$ } from 'providers/ipfs-file'
 
 import { useObservable } from 'hooks/observable'
@@ -45,7 +45,7 @@ const PostViewPage: NextPage<PostViewPageProps> = ({}) => {
     useOnce(() => {
         pageLoadingJobs$.next(
             fileControl.current[0].pipe(
-                mergeMap(({ content$ }) => content$),
+                mergeMap(({ content$ }) => content$.pipe(take(1))),
                 catchError(() => EMPTY),
             ), // not a fatal error
         )
