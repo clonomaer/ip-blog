@@ -13,15 +13,15 @@ import Fallback from 'components/Fallback'
 import { useLazyRef } from 'hooks/lazy-ref'
 import { useOnce } from 'hooks/once'
 import { pageLoadingJobs$ } from 'contexts/loading-jobs'
-import { useLocale } from 'hooks/locale'
 import { useClipboardCopy } from 'hooks/clipboard-copy'
 import { flashToast$ } from 'contexts/flash-toast'
 import Button from 'components/Button'
+import { __$ } from 'locales'
 
-export type PostViewPageProps = {}
+export type PostViewPageProps = never
 
-const PostViewPage: NextPage<PostViewPageProps> = ({}) => {
-    const __ = useLocale()
+const PostViewPage: NextPage<PostViewPageProps> = () => {
+    const __ = useObservable(__$, { ignoreErrors: true })
     const router = useRouter()
     const postId = useMemo(() => _.castArray(router.query.postId)[0], [router])
     const fileControl = useLazyRef(() => ipfsTextFile$(postId))

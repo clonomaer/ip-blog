@@ -9,7 +9,6 @@ import ConnectWalletModal, {
     ConnectWalletModalControl,
 } from 'components/ConnectWalletModal'
 import { useCreateControl } from 'hooks/control/create-control'
-import { useLocale } from 'hooks/locale'
 import { ipfs$ } from 'contexts/ipfs'
 import Fade from 'components/Fade'
 import styles from './styles.module.css'
@@ -17,6 +16,7 @@ import Link from 'next/link'
 import { useRoutePush } from 'hooks/route-push'
 import { useDelay } from 'hooks/delay'
 import { WalletConnectStatus$ } from 'observables/wallet-connect-status'
+import { __$ } from 'locales'
 
 export type MainTopBarProps = {
     className?: ClassName
@@ -25,7 +25,7 @@ export type MainTopBarProps = {
 export default function MainTopBar({
     className,
 }: MainTopBarProps): React.ReactElement | null {
-    const __ = useLocale()
+    const __ = useObservable(__$, { ignoreErrors: true })
     const ipfs = useObservable(ipfs$, { errorTransformer: undefined })
     const push = useRoutePush()
     const connectIconHide = useDelay(!!ipfs, 2000)

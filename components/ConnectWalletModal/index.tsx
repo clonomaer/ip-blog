@@ -4,7 +4,6 @@ import { ClassName } from 'types'
 import ModalWrapper, { ModalControl } from 'components/ModalWrapper'
 import { Subject } from 'rxjs'
 import Button from 'components/Button'
-import { useLocale } from 'hooks/locale'
 import { useControlStream } from 'hooks/control-stream'
 import { useAcceptExitUnlessLoading } from 'hooks/modal/accept-exit-unless-loading'
 import { config } from 'configs'
@@ -17,6 +16,7 @@ import { waitFor } from 'helpers/wait-for'
 import Fade from 'components/Fade'
 import { WalletConnectStatus$ } from 'observables/wallet-connect-status'
 import { truthy } from 'helpers/truthy'
+import { __$ } from 'locales'
 
 export type ConnectWalletModalControl = Partial<{
     Loading: string | null
@@ -32,7 +32,7 @@ export default function ConnectWalletModal({
     className,
     control,
 }: ConnectWalletModalProps): React.ReactElement | null {
-    const __ = useLocale()
+    const __ = useObservable(__$, { ignoreErrors: true })
     const isLoading = useControlStream(control, 'Loading')
     useAcceptExitUnlessLoading(control)
     const address = useObservable(SignerAddress$, {

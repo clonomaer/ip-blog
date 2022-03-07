@@ -3,9 +3,10 @@ import cn from 'classnames'
 import { ClassName, ControlStream } from 'types'
 import Button from 'components/Button'
 import ModalWrapper, { ModalControl } from 'components/ModalWrapper'
-import { useLocale } from 'hooks/locale'
 import { Subject } from 'rxjs'
 import { useControlStream } from 'hooks/control-stream'
+import { __$ } from 'locales'
+import { useObservable } from 'hooks/observable'
 
 export type ConfirmationModalControl = Partial<{
     Confirm: true
@@ -22,7 +23,7 @@ export default function ConfirmationModal({
     children,
     control,
 }: ConfirmationModalProps): React.ReactElement | null {
-    const __ = useLocale()
+    const __ = useObservable(__$, { ignoreErrors: true })
     const isLoading = useControlStream(control, 'Loading')
     return (
         <ModalWrapper

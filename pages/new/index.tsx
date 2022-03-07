@@ -39,10 +39,10 @@ import { __$ } from 'locales'
 import { recentPosts$ } from 'contexts/recent-posts'
 import { getSubjectValue } from 'utils/get-subject-value'
 
-export type NewPageProps = {}
+export type NewPageProps = never
 
-const NewPage: NextPage<NewPageProps> = ({}) => {
-    const __ = useLocale()
+const NewPage: NextPage<NewPageProps> = () => {
+    const __ = useObservable(__$, { ignoreErrors: true })
     const editorSavedValue = useObservable(() => editorContent$.pipe(take(1)))
     const [modalControl$] = useCreateControl<ConfirmationModalControl>()
     useAcceptExitUnlessLoading(modalControl$)

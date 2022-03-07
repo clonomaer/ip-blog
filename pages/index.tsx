@@ -1,7 +1,6 @@
 import React from 'react'
 import type { NextPage } from 'next'
 import _ from 'lodash'
-import { useLocale } from 'hooks/locale'
 import Button from 'components/Button'
 import { useRouter } from 'next/router'
 import { useObservable } from 'hooks/observable'
@@ -15,9 +14,10 @@ import { getSubjectValue } from 'utils/get-subject-value'
 import { isIPFS } from 'ipfs-core'
 import { useRoutePush } from 'hooks/route-push'
 import RecentPosts from 'components/RecentPosts'
+import { __$ } from 'locales'
 
-const Home: NextPage = ({}) => {
-    const __ = useLocale()
+const Home: NextPage = () => {
+    const __ = useObservable(__$, { ignoreErrors: true })
     const push = useRoutePush()
     const [cidInput$, cidInput] = useCreateControl<InputControl>()
 

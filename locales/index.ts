@@ -1,19 +1,26 @@
 import { WebsiteLocale, WebsiteLocaleData } from './interface'
 import { sep } from 'path'
 import {
+    BehaviorSubject,
     catchError,
     map,
     mergeMap,
-    Observable,
+    mergeMapTo,
     of,
     ReplaySubject,
+    tap,
     throwError,
+    timer,
 } from 'rxjs'
 import { ObservableError } from 'classes/observable-error'
 import { flashToast$ } from 'contexts/flash-toast'
 
-function importAndValidateLocale$(locale: string): Observable<WebsiteLocale> {
-    return of(locale).pipe(
+export const __$ = new ReplaySubject<WebsiteLocaleData>(1)
+export const locale$ = new BehaviorSubject<string>('en')
+
+locale$
+    .pipe(
+        tap(x => console.log('locale shit', x)),
         mergeMap(_locale => import(`.${sep}${_locale}`)),
         map(x => x.default),
         mergeMap(x =>
@@ -22,29 +29,23 @@ function importAndValidateLocale$(locale: string): Observable<WebsiteLocale> {
                 : throwError(
                       () =>
                           new ObservableError(
-                              `E0x02 invalid locale data for ${locale}`,
+                              `E0x02 invalid locale data for ${locale$.getValue()}`,
                           ),
                   ),
         ),
-    )
-}
-
-export const __$ = new ReplaySubject<WebsiteLocaleData>(1)
-
-export function localeFactory$(
-    locale: string = 'en',
-): Observable<WebsiteLocaleData> {
-    const res = importAndValidateLocale$(locale).pipe(
-        catchError(err => {
+        catchError((err, observable) => {
             flashToast$.next(
                 `${
                     err?.toString?.() ?? 'E0x03 error loading locale data'
                 }, trying to load fallback locale`,
             )
-            return importAndValidateLocale$('en')
+            locale$.next('en')
+            return timer(1000).pipe(mergeMapTo(observable))
         }),
         map(x => x.data),
     )
-    res.subscribe(__$)
-    return res
-}
+    .subscribe(__$)
+
+__$.subscribe(x =>
+    console.log('more locale shit', x.userInteraction.confirmation.confirm),
+)

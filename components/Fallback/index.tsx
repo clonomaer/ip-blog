@@ -1,13 +1,14 @@
 import React, { ReactNode } from 'react'
 import cn from 'classnames'
-import { useLocale } from 'hooks/locale'
+import { useObservable } from 'hooks/observable'
+import { __$ } from 'locales'
 
 export type FallbackProps = { message?: ReactNode }
 
 export default function Fallback({
     message,
 }: FallbackProps): React.ReactElement | null {
-    const __ = useLocale()
+    const __ = useObservable(__$, { ignoreErrors: true })
     return (
         <div>
             {message ??
