@@ -13,6 +13,7 @@ import {
 
 export const CustomRemoteWeb3Providers$ = from([config.Network]).pipe(
     mergeMap(x => config.CustomEndpoints[x]),
+    //TODO: make `new` statement inside `RxJS.using`, unsubscribe it by emitting error and/or deleting the resource
     map(x => new providers.JsonRpcProvider(x)),
     mergeMap(provider =>
         from(provider.getBlockNumber()).pipe(
