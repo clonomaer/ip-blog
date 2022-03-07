@@ -2,7 +2,7 @@ import { Web3Error } from 'classes/web3-error'
 import _ from 'lodash'
 import { Window$ } from 'observables/window'
 import { map, mergeMap, Observable, of, throwError } from 'rxjs'
-import { ExternalProvider, Web3ProviderId } from 'types'
+import { Web3ProviderId } from 'types'
 import { Network as EthersNetwork } from '@ethersproject/networks'
 import { providers } from 'ethers'
 
