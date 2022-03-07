@@ -64,7 +64,8 @@ export default function MainTopBar({
                 <Button
                     job={async () => modalControl$.next({ Display: true })}
                     className="flex items-center justify-center"
-                    active={!!isConnected}>
+                    active={!!isConnected}
+                    isLoading={isConnected === undefined}>
                     <i
                         className={cn(
                             isConnected ? 'uil-link-alt' : 'uil-link-broken',
