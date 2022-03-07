@@ -6,6 +6,7 @@ import { recentPosts$ } from 'contexts/recent-posts'
 import Fallback from 'components/Fallback'
 import { shortenString } from 'utils/shorten-string'
 import { useRoutePush } from 'hooks/route-push'
+import { __$ } from 'locales'
 
 export type RecentPostsProps = {
     className?: ClassName
@@ -14,6 +15,7 @@ export type RecentPostsProps = {
 export default function RecentPosts({
     className,
 }: RecentPostsProps): React.ReactElement | null {
+    const __ = useObservable(__$, { ignoreErrors: true })
     const postList = useObservable(recentPosts$)
     const push = useRoutePush()
     return (
@@ -22,8 +24,10 @@ export default function RecentPosts({
                 'flex flex-col border border-primary rounded-lg p-3 items-center',
                 className,
             )}>
-            <div className="w-full text-center mb-4">recent posts</div>
-            <div className="w-full border-b border-primary mb-4" />
+            <div className="w-full text-center mb-4">
+                {__?.viewPost.recentPostsTitle}
+            </div>
+            <div className="w-full border-b border-primary-dark mb-4" />
             <div className="flex flex-col mb-2">
                 {postList instanceof Error ? (
                     <Fallback />
@@ -38,7 +42,7 @@ export default function RecentPosts({
                         </a>
                     ))
                 ) : (
-                    <div>you haven't posted anything yet!</div>
+                    <div>{__?.viewPost.recentPostsEmpty}</div>
                 )}
             </div>
         </div>

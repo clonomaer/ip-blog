@@ -24,6 +24,8 @@ export interface WebsiteLocaleData {
     viewPost: {
         invalidCidError: string
         copyButton: string
+        recentPostsTitle: string
+        recentPostsEmpty: string
     }
     userInteraction: {
         confirmation: {
@@ -42,6 +44,7 @@ export interface WebsiteLocaleData {
                 notConnected: string
             }
         }
+        signFailed: string
     }
 }
 export class WebsiteLocale {

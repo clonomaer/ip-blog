@@ -27,6 +27,8 @@ const locale: WebsiteLocale = new WebsiteLocale({
     viewPost: {
         invalidCidError: 'are you sure you copied the link right?',
         copyButton: 'CID',
+        recentPostsEmpty: "you haven't posted anything yet!",
+        recentPostsTitle: '',
     },
     userInteraction: { confirmation: { cancel: 'cancel', confirm: 'confirm' } },
     web3Provider: {
@@ -41,6 +43,7 @@ const locale: WebsiteLocale = new WebsiteLocale({
                 notConnected: 'web³ not connected',
             },
         },
+        signFailed: 'you should connect to web3...',
     },
 })
 export default locale
