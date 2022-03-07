@@ -43,7 +43,7 @@ export default function ConnectWalletModalSingleItem({
                 subject.next(id)
                 await firstValueFrom(
                     SignerAddress$.pipe(
-                        skip(1),
+                        filter(x => x !== null),
                         filter(noSentinelOrUndefined),
                         take(1),
                     ),
