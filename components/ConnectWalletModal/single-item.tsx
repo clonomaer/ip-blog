@@ -52,8 +52,9 @@ export default function ConnectWalletModalSingleItem({
             <img
                 alt={id}
                 src={connectWalletModalAssetsMap[id]}
+                draggable={false}
                 className={cn(
-                    'h-20 w-20 object-contain mb-3 transition-all',
+                    'h-20 w-20 object-contain mb-3 transition-all select-none',
                     ((loading && loading !== id) || !provider) &&
                         'filter grayscale brightness-50',
                     loading === id && 'opacity-0',
