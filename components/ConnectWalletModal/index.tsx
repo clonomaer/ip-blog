@@ -16,6 +16,7 @@ import { Web3ProviderId$ } from 'observables/web3-provider-id'
 import { waitFor } from 'helpers/wait-for'
 import Fade from 'components/Fade'
 import { WalletConnectStatus$ } from 'observables/wallet-connect-status'
+import { truthy } from 'helpers/truthy'
 
 export type ConnectWalletModalControl = Partial<{
     Loading: string | null
@@ -34,8 +35,12 @@ export default function ConnectWalletModal({
     const __ = useLocale()
     const isLoading = useControlStream(control, 'Loading')
     useAcceptExitUnlessLoading(control)
-    const address = useObservable(SignerAddress$)
-    const isConnected = useObservable(WalletConnectStatus$)
+    const address = useObservable(SignerAddress$, {
+        errorTransformer: () => undefined,
+    })
+    const isConnected = useObservable(WalletConnectStatus$, {
+        errorTransformer: () => false,
+    })
     return (
         <ModalWrapper
             className={className}

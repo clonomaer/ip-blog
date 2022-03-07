@@ -30,6 +30,7 @@ export default function RecentPosts({
                 ) : postList ? (
                     postList.map((cid, index) => (
                         <a
+                            key={`${cid}-${index}`}
                             className="flex transition-all hover:text-primary cursor-pointer active:text-primary-dark"
                             onClick={push(`/post?postId=${cid}`)}>
                             <i className="uil-file-alt text-xl mr-1" />

@@ -26,12 +26,16 @@ export default function MainTopBar({
     className,
 }: MainTopBarProps): React.ReactElement | null {
     const __ = useLocale()
-    const ipfs = useObservable(ipfs$)
+    const ipfs = useObservable(ipfs$, { errorTransformer: undefined })
     const push = useRoutePush()
     const connectIconHide = useDelay(!!ipfs, 2000)
 
-    const address = useObservable(() => SignerAddress$)
-    const isConnected = useObservable(WalletConnectStatus$)
+    const address = useObservable(() => SignerAddress$, {
+        errorTransformer: undefined,
+    })
+    const isConnected = useObservable(WalletConnectStatus$, {
+        errorTransformer: false,
+    })
     const [modalControl$] = useCreateControl<ConnectWalletModalControl>()
     return (
         <div className="flex w-full justify-between items-center p-3">

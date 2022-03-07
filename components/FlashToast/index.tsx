@@ -38,7 +38,9 @@ export default function FlashToast({
     className,
 }: FlashToastProps): React.ReactElement | null {
     const [control$] = useCreateControl<ModalControl>()
-    const message = useObservable(flashToast$)
+    const message = useObservable(flashToast$, {
+        errorTransformer: err => err.message,
+    })
 
     useSubscribe(
         () =>

@@ -24,7 +24,9 @@ export default function ConnectWalletModalSingleItem({
     id,
     control,
 }: ConnectWalletModalSingleItemProps): React.ReactElement | null {
-    const provider = useObservable(config.Web3Providers[id].provider$)
+    const provider = useObservable(config.Web3Providers[id].provider$, {
+        errorTransformer: undefined,
+    })
     const loading = useControlStream(control, 'Loading')
     return (
         <Button
@@ -48,6 +50,7 @@ export default function ConnectWalletModalSingleItem({
                 ).then(() => control.next({ Loading: null, RequestExit: true }))
             }}>
             <img
+                alt={id}
                 src={connectWalletModalAssetsMap[id]}
                 className={cn(
                     'h-20 w-20 object-contain mb-3 transition-all',

@@ -12,6 +12,7 @@ export default function MainLayout({
     const isLoading = useObservable(isPageLoading$, {
         ignoreErrors: true,
         initialValue: true,
+        errorTransformer: true,
     })
     return (
         <Fade
