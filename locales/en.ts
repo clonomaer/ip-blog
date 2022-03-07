@@ -28,7 +28,7 @@ const locale: WebsiteLocale = new WebsiteLocale({
         invalidCidError: 'are you sure you copied the link right?',
         copyButton: 'CID',
         recentPostsEmpty: "you haven't posted anything yet!",
-        recentPostsTitle: '',
+        recentPostsTitle: 'recent posts',
     },
     userInteraction: { confirmation: { cancel: 'cancel', confirm: 'confirm' } },
     web3Provider: {
