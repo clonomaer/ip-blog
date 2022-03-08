@@ -67,7 +67,7 @@ export default function ConnectWalletModal({
                         'justify-center',
                         'items-center',
                     )}>
-                    x
+                    <i className="uil-times" />
                 </Button>
             </div>
             <div className="flex flex-col justify-center items-center mb-5">

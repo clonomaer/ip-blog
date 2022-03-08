@@ -49,7 +49,7 @@ export default function ConfirmationModal({
                         'justify-center',
                         'items-center',
                     )}>
-                    x
+                    <i className="uil-times" />
                 </Button>
             </div>
             <div className="px-3">{children}</div>
