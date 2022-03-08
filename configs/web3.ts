@@ -27,7 +27,7 @@ const Web3Providers: {
         id: 'metamask',
         provider$: Window$.pipe(
             map(win =>
-                !!_.get(win, 'ethereum')?.isMetaMask
+                _.get(win, 'ethereum')?.isMetaMask
                     ? (_.get(win, 'ethereum') as providers.ExternalProvider)
                     : undefined,
             ),
@@ -38,7 +38,7 @@ const Web3Providers: {
         id: 'binanceChain',
         provider$: Window$.pipe(
             map(win =>
-                !!_.get(win, 'BinanceChain')
+                _.get(win, 'BinanceChain')
                     ? (_.get(win, 'BinanceChain') as providers.ExternalProvider)
                     : undefined,
             ),
@@ -49,7 +49,7 @@ const Web3Providers: {
         id: 'trust',
         provider$: Window$.pipe(
             map(win =>
-                !!_.get(win, 'ethereum')?.isTrust
+                _.get(win, 'ethereum')?.isTrust
                     ? (_.get(win, 'ethereum') as providers.ExternalProvider)
                     : undefined,
             ),
@@ -60,7 +60,7 @@ const Web3Providers: {
         id: 'safePal',
         provider$: Window$.pipe(
             map(win =>
-                !!_.get(win, 'ethereum')?.isSafePal
+                _.get(win, 'ethereum')?.isSafePal
                     ? (_.get(win, 'ethereum') as providers.ExternalProvider)
                     : undefined,
             ),
