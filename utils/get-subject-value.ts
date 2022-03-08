@@ -1,9 +1,9 @@
-import { ReplaySubject } from 'rxjs'
+import { Observable, ReplaySubject } from 'rxjs'
 
 /**@description to be used only with ReplaySubjects */
 
 export function getSubjectValue<T>(
-    subject: ReplaySubject<T> | null | undefined,
+    subject: Observable<T> | null | undefined,
 ): T | undefined {
     let current: T | undefined = undefined
     const sub = subject?.subscribe(value => {
