@@ -1,10 +1,11 @@
 import { ObservableError } from 'classes/observable-error'
 import { SENTINEL, Sentinel } from 'contexts/empty-sentinel'
 import _ from 'lodash'
-import { DependencyList, useEffect, useState } from 'react'
+import React, { DependencyList, useEffect, useState } from 'react'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { LazyEval } from 'types'
 import { unLazy } from 'utils/un-lazy'
+import Fallback from 'components/Fallback'
 
 type Options<R> = {
     dependencies?: DependencyList
@@ -106,22 +107,33 @@ export function useObservable<T, R = T>(
                 if (_.isObjectLike(x)) {
                     try {
                         return setState(_.cloneDeep(x))
-                    } catch {}
+                    } catch {
+                        // ignore
+                    }
                 }
                 return setState(x)
             },
-            error: e =>
-                ignoreErrors
-                    ? undefined
-                    : setState(
-                          (_.isFunction(errorTransformer)
-                              ? errorTransformer
-                              : () => errorTransformer)(
-                              e instanceof ObservableError
-                                  ? e
-                                  : new ObservableError(e),
-                          ),
-                      ),
+            error: e => {
+                if (ignoreErrors) {
+                    setState(undefined)
+                }
+                const error = (
+                    _.isFunction(errorTransformer)
+                        ? errorTransformer
+                        : () => errorTransformer
+                )(e instanceof ObservableError ? e : new ObservableError(e))
+                const fallbackRender = () =>
+                    React.createElement(Fallback, {
+                        key: `fallback-content-${('message' in e
+                            ? String(e.message)
+                            : String(e)
+                        ).replace(/ +/g, '-')}`,
+                        message: 'message' in e ? String(e.message) : String(e),
+                    })
+                _.assign(fallbackRender, error)
+                //@ts-ignore
+                setState(fallbackRender)
+            },
         })
         return () => {
             subscription?.unsubscribe()
